@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Dongle", serif;
+  src: url("https://fonts.google.com/specimen/Dongle?query=korean");
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  color: #000;
+  background-color: #fafafa;
+  font-family: "Dongle", Arial, Helvetica, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 10px; /* 세로축 스크롤바 폭 너비 */
+  height: 20px; /* 가로축 스크롤바 폭 너비 */
+}
+
+/* 스크롤바 막대 */
+::-webkit-scrollbar-thumb {
+  background: #0b3b2d; /* 스크롤바 막대 색상 */
+  border: 2px solid #0b3b2d; /* 스크롤바 막대 테두리 설정  */
+  border-radius: 12px 12px 12px 12px;
+}
+
+/* 스크롤이 움직이는 뒷 배경 */
+::-webkit-scrollbar-track {
+  background: #ced8d5; /* 스크롤바 뒷 배경 색상 */
+}
+
+.scroll-container {
+  overflow-x: auto; /* 가로 스크롤 가능 */
+  overflow-y: hidden; /* 세로 스크롤 숨김 */
+  -ms-overflow-style: none; /* IE, Edge에서 스크롤바 숨기기 */
+  scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+li {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* input number 버튼 제거 */
+Chrome,
+Safari,
+Edge,
+Opera input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
