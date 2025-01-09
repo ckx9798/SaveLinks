@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes } from "react";
 
-type ButtonSize = "xs" | "sm" | "md" | "lg";
+type ButtonSize = "xs" | "sm" | "md" | "lg" | "response";
 
 const baseClass =
   "flex justify-center items-center bg-gradient-to-r from-primary to-secondary from-5% to-90% text-white01 rounded-lg text-xl font-semibold";
@@ -10,6 +10,7 @@ const sizeClass = {
   sm: "w-[90px] h-[37px] md:w-[128px] md:h-[53px]",
   md: "w-[280px] h-[51px]",
   lg: "w-[325px] h-[53px] md:w-[400px] md:h-[53px]",
+  response: "w-full max-w-[400px] h-[53px]",
 };
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
