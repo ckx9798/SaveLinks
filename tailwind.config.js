@@ -6,6 +6,7 @@ export default {
       colors: {
         primary: "#6D6AFE",
         secondary: "#6AE3FE",
+        logo: "#4941FE",
         red01: "#FF5B56",
         black01: "#111322",
         white01: "#FFFFFF",
