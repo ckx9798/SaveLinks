@@ -1,4 +1,4 @@
-export default function Link() {
+export default function LinkItem() {
   return (
     <div className="w-full max-w-[340px] rounded-xl overflow-hidden h-[334px] bg-red-100 shadow-xl">
       <img src="/d0.webp" className="h-3/5 w-full object-cover" />
