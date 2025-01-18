@@ -19,11 +19,7 @@ export default function Login() {
     const { email, password } = data;
     postLogin(email, password)
       .then((response) => {
-        if (response.status == 200) {
-          navigate("/links");
-        } else {
-          alert("로그인에러");
-        }
+        navigate("/links");
       })
       .catch((error) => console.error(error));
   };
