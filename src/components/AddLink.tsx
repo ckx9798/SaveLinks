@@ -7,15 +7,19 @@ export default function AddLink() {
   const [link, setLink] = useState("");
   const [isModal, setIsModal] = useState(false);
 
+  const handleModalOpen = () => {
+    setIsModal(true);
+  };
+
   const handleAddLink = (e) => {
     e.preventDefault();
-    setIsModal(true);
+    // setIsModal(true);
     console.log(1);
     // postLinks();
   };
   return (
     <>
-      <form
+      <div
         className="flex max-h-[120px] w-full max-w-[800px] items-center justify-between rounded-xl border border-primary bg-white px-3 py-2 md:px-5 md:py-2"
         onSubmit={handleAddLink}
       >
@@ -28,9 +32,9 @@ export default function AddLink() {
             onChange={(e) => setLink(e.target.value)}
           />
         </div>
-        <Button size="xs" text="추가하기" />
-      </form>
-      {isModal && <Modal />}
+        <Button size="xs" text="추가하기" onClick={handleModalOpen} />
+      </div>
+      {isModal && <Modal setIsModal={setIsModal} />}
     </>
   );
 }

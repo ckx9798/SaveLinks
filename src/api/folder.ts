@@ -1,42 +1,23 @@
-import { getCookie } from "./cookie";
+import apiClient from "./axiosInstance";
 
 export const getFolder = async () => {
-  const accessToken = getCookie("accessToken");
-  const response = await fetch("https://linkbrary-api.vercel.app/40-1/folders", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  const data = await response.json();
-  return data;
+  try {
+    const response = await apiClient.get("/folders");
+    return response;
+  } catch (error) {
+    console.error("getFolder 에러", error.response?.data || error.message);
+    return [];
+  }
 };
 
-// export const postFolder = async (name) => {
-//   const accessToken = getCookie("accessToken");
-//   const response = await fetch("https://linkbrary-api.vercel.app/40-1/folders", {
-//     method: "POST",
-//     headers: {
-//       Authorization: `Bearer ${accessToken}`,
-//     },
-//     body: JSON.stringify({
-//       name: name,
-//     }),
-//   });
-//   const data = await response.json();
-//   return data;
-// };
-
-// export const getFolderId = async (folderId) => {
-//   const accessToken = getCookie("accessToken");
-//   const response = await fetch(`https://linkbrary-api.vercel.app/40-1/folders/${folderId}`, {
-//     method: "GET",
-//     headers: {
-//       Authorization: `Bearer ${accessToken}`,
-//     },
-//   });
-
-//   const data = await response.json();
-//   return data;
-// };
+export const postFolder = async (newFolderName) => {
+  try {
+    const response = await apiClient.post("/folders", {
+      name: newFolderName,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("postFolder 에러", error.response?.data || error.message);
+    throw error;
+  }
+};
