@@ -3,7 +3,7 @@ import React, { ButtonHTMLAttributes } from "react";
 type ButtonSize = "xs" | "sm" | "md" | "lg" | "response";
 
 const baseClass =
-  "flex justify-center items-center bg-gradient-to-r from-primary to-secondary from-5% to-90% text-white01 rounded-lg text-xl font-semibold";
+  "flex justify-center items-center bg-gradient-to-r from-primary to-secondary from-5% to-90% text-white01 rounded-lg text-2xl font-semibold";
 
 const sizeClass = {
   xs: "w-[90px] h-[37px]",
@@ -16,11 +16,12 @@ const sizeClass = {
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size: ButtonSize;
   text: string;
+  onClick?: () => void;
 }
 
 export default function Button({ size, text, ...props }: ButtonProps) {
   return (
-    <button className={`${baseClass} ${sizeClass[size]}`} {...props}>
+    <button {...props} className={`${baseClass} ${sizeClass[size]}`}>
       {text}
     </button>
   );
