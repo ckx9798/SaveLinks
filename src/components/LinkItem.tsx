@@ -1,10 +1,12 @@
 import ChangeDate from "../utils/ChangeDate";
 
 export default function LinkItem({ link }) {
+  const linkSource = link.imageSource || "/link.svg";
+  const linkSourceClass = linkSource === "/link.svg" ? "h-3/5 w-full" : "h-3/5 w-full object-cover";
   return (
-    <div className="h-[334px] w-full max-w-[340px] overflow-hidden rounded-xl bg-red-100 shadow-xl">
-      <img src={link.imageSource} className="h-3/5 w-full object-cover" />
-      <div className="flex flex-col px-5 py-3">
+    <div className="h-[334px] w-full max-w-[340px] overflow-hidden rounded-xl shadow-xl">
+      <img src={linkSource} className={linkSourceClass} />
+      <div className="flex flex-col px-4 py-3">
         <div className="flex justify-between">
           <p className="text-gray06">10 minutes ago</p>
           <img src="/kebab.svg" />
