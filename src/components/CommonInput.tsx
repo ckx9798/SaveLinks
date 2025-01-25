@@ -8,11 +8,11 @@ interface ICommonInput {
 export default function CommonInput({ labelName, register, name, placeholder }: ICommonInput) {
   return (
     <div>
-      <label>{labelName}</label>
+      <label className="mb-2 text-xl">{labelName}</label>
       <input
         placeholder={placeholder}
         {...register(name)}
-        className="w-full h-[60px] bg-white border border-gray03 rounded-lg px-3 text-xl focus:border-primary focus:outline-none"
+        className="my-2 h-[50px] w-full rounded-lg border border-gray03 bg-white px-3 text-xl focus:border-primary focus:outline-none"
       />
     </div>
   );

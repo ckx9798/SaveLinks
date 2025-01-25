@@ -5,7 +5,17 @@ export const getLinks = async () => {
     const response = await apiClient.get("/links");
     return response.data;
   } catch (error) {
-    console.error("getLinks", error);
+    console.error("getLinks", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const getLinksById = async (folderId) => {
+  try {
+    const response = await apiClient.get(`/folders/${folderId}/links`);
+    return response.data;
+  } catch (error) {
+    console.error("getLinksWidthId", error.response?.data || error.message);
     throw error;
   }
 };
