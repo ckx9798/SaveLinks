@@ -1,14 +1,18 @@
 import { FaUserCircle } from "react-icons/fa";
-import Favorite from "./Favorite";
+import UserFavoriteLinks from "./UserFavoriteLinks";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
+  const moveToLinks = () => navigate("/links");
+  const moveToFavorite = () => navigate("/favorite");
   return (
-    <div className="w-full max-w-[1200px] h-[65px] flex justify-between items-center bg-gray05 my-4 px-2 md:px-8 md:my-6">
-      <img src="/savelinks.svg" />
+    <div className="my-4 flex h-[65px] w-full max-w-[1200px] items-center justify-between bg-gray05 px-2 md:my-6 md:px-8">
+      <img src="/savelinks.svg" onClick={moveToLinks} className="cursor-pointer" />
       <div className="flex gap-4">
-        <Favorite />
-        <div className="bg-logo p-1 rounded-full">
-          <FaUserCircle className="text-white text-3xl" />
+        <UserFavoriteLinks onClick={moveToFavorite} />
+        <div className="rounded-full bg-logo p-1">
+          <FaUserCircle className="text-3xl text-white" />
         </div>
       </div>
     </div>
