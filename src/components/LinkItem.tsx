@@ -46,9 +46,9 @@ export default function LinkItem({ link }) {
         )}
 
         <img src={linkSource} className={linkSourceClass} />
-        <div className="flex flex-col gap-1 px-4 py-2">
+        <div className="flex flex-col px-4 py-2">
           <div className="flex justify-between">
-            <p className="line-clamp-1 text-gray06 md:text-xl">{eachLink.title}</p>
+            <p className="my-1 line-clamp-1 font-semibold text-blue-300 md:text-2xl">{eachLink.title}</p>
             <img src="/kebab.svg" />
           </div>
           <h2 className="my-1 line-clamp-2 text-xl leading-6 md:my-2 md:text-2xl md:font-medium">{link.description}</h2>

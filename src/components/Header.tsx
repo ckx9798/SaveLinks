@@ -7,7 +7,7 @@ export default function Header() {
   const moveToLinks = () => navigate("/links");
   const moveToFavorite = () => navigate("/favorite");
   return (
-    <div className="my-4 flex h-[65px] w-full max-w-[1200px] items-center justify-between bg-gray05 px-2 md:my-6 md:px-8">
+    <div className="my-4 flex h-[65px] w-full max-w-[1200px] items-center justify-between bg-gray05 md:my-6">
       <img src="/savelinks.svg" onClick={moveToLinks} className="cursor-pointer" />
       <div className="flex gap-4">
         <UserFavoriteLinks onClick={moveToFavorite} />
