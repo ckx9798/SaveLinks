@@ -32,3 +32,25 @@ export const postLinks = async (url, folderId) => {
     throw error;
   }
 };
+
+export const getFavorite = async () => {
+  try {
+    const response = await apiClient.get("/favorites");
+    return response.data;
+  } catch (error) {
+    console.error("getFavorite", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const putFavorite = async (linkId, isFavorite) => {
+  try {
+    const response = await apiClient.put(`/links/${linkId}/favorite`, {
+      favorite: !isFavorite,
+    });
+    return response;
+  } catch (error) {
+    console.error("putFavoite", error.response?.data || error.message);
+    throw error;
+  }
+};
