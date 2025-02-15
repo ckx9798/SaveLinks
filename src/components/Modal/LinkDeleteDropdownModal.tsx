@@ -1,10 +1,14 @@
 import Button from "../Button";
+import { DeleteLinkUrl } from "../../api/links";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import React from "react";
 
-export default function LinkDeleteDropdownModal({ setIsDeleteModalOpen }) {
+export default function LinkDeleteDropdownModal({ setIsDeleteModalOpen, linkId }) {
   const handleModalClose = (e) => {
     e.preventDefault();
+    setIsDeleteModalOpen((prev) => !prev);
+  };
+  const sendDeleteRequest = async () => {
+    await DeleteLinkUrl(linkId);
     setIsDeleteModalOpen((prev) => !prev);
   };
   return (
