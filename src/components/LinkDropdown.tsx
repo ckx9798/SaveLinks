@@ -1,7 +1,3 @@
-import { EditLinkUrl } from "../api/links";
-import LinkDropdownModal from "./Modal/LinkEditDropdownModal";
-import { useState } from "react";
-
 export default function LinkDropdown({ setIsEditModalOpen, setIsDeleteModalOpen }) {
   const handleEditModal = (e) => {
     e.preventDefault();
