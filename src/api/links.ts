@@ -54,3 +54,25 @@ export const putFavorite = async (linkId, isFavorite) => {
     throw error;
   }
 };
+
+export const EditLinkUrl = async (linkId, newUrl) => {
+  try {
+    const response = await apiClient.put(`links/${linkId}`, {
+      url: newUrl,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("EditLinkUrl", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const DeleteLinkUrl = async (linkId) => {
+  try {
+    const response = await apiClient.delete(`links/${linkId}`);
+    return response.data;
+  } catch (error) {
+    console.error("DeleteLinkUrl", error.response?.data || error.message);
+    throw error;
+  }
+};
