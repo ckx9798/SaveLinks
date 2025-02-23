@@ -15,7 +15,10 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(schema) });
+  } = useForm({
+    resolver: zodResolver(schema),
+    mode: "onChange",
+  });
 
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false); // 비밀번호 보이기/숨기기 상태
