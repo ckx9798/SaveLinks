@@ -34,7 +34,9 @@ export default function Login() {
     <div className="flex h-screen flex-col items-center justify-center">
       <div className="flex flex-col items-center justify-center">
         <img src="/savelinks.svg" width={180} alt="Logo" />
-        <a className="text-primary">회원 가입하기</a>
+        <button className="text-primary" onClick={() => navigate("/signup")}>
+          Signup
+        </button>
       </div>
       <form className="flex w-full max-w-[400px] flex-col" onSubmit={handleSubmit(handleLogin)}>
         {/* 이메일 입력 */}
