@@ -1,8 +1,9 @@
 import ChangeFolderNameModal from "../Modal/ChangeFolderNameModal";
+import { EditFolderNameImageProps } from "../../type/folder";
 import { useState } from "react";
 
-export default function ChageFolderNameImage({ currentFolder }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export default function ChangeFolderNameImage({ currentFolder }: EditFolderNameImageProps) {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const handleModalOpen = () => setIsModalOpen(!isModalOpen);
   return (
     <>
