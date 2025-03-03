@@ -12,3 +12,7 @@ export interface EditFolderNameModalProps {
   setIsModalOpen: (isOpen: boolean) => void;
   currentFolder: Folder;
 }
+
+export interface AddFolderModalProps {
+  setIsAddFolderOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}

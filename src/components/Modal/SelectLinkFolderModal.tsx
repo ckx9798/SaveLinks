@@ -1,15 +1,18 @@
 import Button from "../Button";
 import { CiBookmarkCheck } from "react-icons/ci";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { SelectLinkFolderModalProps } from "../../type/modal";
 import { postLinks } from "../../api/links";
 import { useState } from "react";
 
-export default function SelectLinkFolderModal({ setIsModal, folderList, newLink }) {
-  const [selectFolder, setSelectFolder] = useState("");
-  console.log(selectFolder);
+export default function SelectLinkFolderModal({ setIsModal, folderList, newLink }: SelectLinkFolderModalProps) {
+  const [selectFolder, setSelectFolder] = useState<number | null>(null);
+
   const handlePostNewLink = () => {
-    postLinks(newLink, selectFolder);
-    setIsModal(false);
+    if (selectFolder !== null) {
+      postLinks(newLink, selectFolder);
+      setIsModal(false);
+    }
   };
 
   return (

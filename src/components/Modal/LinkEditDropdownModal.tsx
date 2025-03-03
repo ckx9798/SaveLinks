@@ -1,17 +1,18 @@
 import Button from "../Button";
 import { EditLinkUrl } from "../../api/links";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { LinkEditDropdownModalProps } from "../../type/modal";
 import { useState } from "react";
 
-export default function LinkEditDropdownModal({ setIsEditModalOpen, linkId }) {
-  const handleModalClose = (e) => {
+export default function LinkEditDropdownModal({ setIsEditModalOpen, linkId }: LinkEditDropdownModalProps) {
+  const [newLink, setNewLink] = useState<string>("");
+
+  const handleModalClose = (e: React.MouseEvent<SVGElement, MouseEvent>): void => {
     e.preventDefault();
     setIsEditModalOpen((prev) => !prev);
   };
 
-  const [newLink, setNewLink] = useState("");
-
-  const sendEditLinkRequest = async () => {
+  const sendEditLinkRequest = async (): Promise<void> => {
     try {
       await EditLinkUrl(linkId, newLink);
       setIsEditModalOpen((prev) => !prev);
