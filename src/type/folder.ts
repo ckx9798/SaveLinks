@@ -4,3 +4,11 @@ export interface Folder {
   name: string;
   linkCount: number;
 }
+
+export interface EditFolderNameImageProps {
+  currentFolder: Folder;
+}
+export interface EditFolderNameModalProps {
+  setIsModalOpen: (isOpen: boolean) => void;
+  currentFolder: Folder;
+}
