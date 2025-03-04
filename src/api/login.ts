@@ -1,7 +1,13 @@
-import { MdEmail } from "react-icons/md";
+import { AxiosError, AxiosResponse } from "axios";
+
+import { SignUpFormInputs } from "../type/login";
 import apiClient from "./axiosInstance";
 
-export const postLogin = async (email, password) => {
+interface LoginResponse {
+  accessToken: string;
+}
+
+export const postLogin = async (email: string, password: string): Promise<LoginResponse | { error: string }> => {
   try {
     const response = await fetch("https://linkbrary-api.vercel.app/40-1/auth/sign-in", {
       method: "POST",
@@ -9,40 +15,36 @@ export const postLogin = async (email, password) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: email,
-        password: password,
+        email,
+        password,
       }),
     });
 
-    // 응답 상태 코드 확인
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data: LoginResponse = await response.json();
 
-    // 액세스 토큰을 쿠키에 저장
     document.cookie = `accessToken=${data.accessToken}; path=/; secure; samesite=strict`;
 
     return data;
   } catch (error) {
-    console.error("Error during login:", error.message);
-
-    // 에러 메시지를 반환하거나, 필요 시 사용자에게 전달할 수 있는 형식으로 처리
-    return { error: error.message };
+    console.error("Error during login:", (error as Error).message);
+    return { error: (error as Error).message };
   }
 };
 
-export const postSignUp = async (email, password, name) => {
+export const postSignUp = async (email: string, password: string, name: string): Promise<SignUpFormInputs> => {
   try {
-    const response = await apiClient.post("/auth/sign-up", {
-      email: email,
-      password: password,
-      name: name,
+    const response: AxiosResponse<SignUpFormInputs> = await apiClient.post("/auth/sign-up", {
+      email,
+      password,
+      name,
     });
     return response.data;
   } catch (error) {
-    console.error("putFavoite", error.response?.data || error.message);
+    console.error("Sign-up error", (error as AxiosError).response?.data || (error as Error).message);
     throw error;
   }
 };
