@@ -1,35 +1,33 @@
 import ChangeDate from "../utils/ChangeDate";
 import LinkDeleteDropdownModal from "./Modal/LinkDeleteDropdownModal";
 import LinkEditDropdownModal from "./Modal/LinkEditDropdownModal";
+import { LinkItemProps } from "../type/link";
 import LinksDropdown from "./LinkDropdown";
 import { TiStarFullOutline } from "react-icons/ti";
 import { putFavorite } from "../api/links";
 import { useState } from "react";
 
-export default function LinkItem({ link }) {
+export default function LinkItem({ link }: LinkItemProps) {
   // 서버 url
   const linkSource = link.imageSource || "/link.svg";
   const linkSourceClass =
     linkSource === "/link.svg" ? "h-[130px] md:h-3/5 w-full" : "h-[130px] md:h-3/5 w-full object-cover";
 
   // url 로직 통일
-  const nomalizeUrl = (url) => {
+  const nomalizeUrl = (url: string) => {
     return url.startsWith("http://") || url.startsWith("https://") ? url : `https://${url}`;
   };
 
-  const [eachLink, setEachLink] = useState(link); // 'linked' 상태로 link 객체를 관리
+  const [eachLink, setEachLink] = useState(link);
 
   // 즐겨찾기 변경 로직
-  const handleFavoriteClick = async (e) => {
+  const handleFavoriteClick = async (e: React.MouseEvent<SVGElement>) => {
     e.preventDefault();
     try {
-      // 서버에 현재 favorite 상태의 반대값을 전송
       await putFavorite(eachLink.id, eachLink.favorite);
-
-      // 상태 업데이트
       setEachLink((prevLink) => ({
         ...prevLink,
-        favorite: !prevLink.favorite, // favorite 값을 반전
+        favorite: !prevLink.favorite,
       }));
     } catch (error) {
       console.error("즐겨찾기 업데이트 중 오류 발생:", error);
@@ -37,15 +35,15 @@ export default function LinkItem({ link }) {
   };
 
   // 드롭다운
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const handleDropdownClick = (e) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const handleDropdownClick = (e: React.MouseEvent<HTMLImageElement>) => {
     e.preventDefault();
     setIsDropdownOpen((prev) => !prev);
   };
 
   // 드롭다운 모달
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   return (
     <>
@@ -72,7 +70,7 @@ export default function LinkItem({ link }) {
               {/* 드롭다운 메뉴 */}
               {isDropdownOpen && (
                 <LinksDropdown
-                  linkId={link.Id}
+                  linkId={link.id}
                   setIsEditModalOpen={setIsEditModalOpen}
                   setIsDeleteModalOpen={setIsDeleteModalOpen}
                 />
