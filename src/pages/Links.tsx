@@ -1,13 +1,13 @@
+import { Link, LinkResponse, LinksByIdResponse } from "../type/link";
 import { getLinks, getLinksById } from "../api/links";
 import { useEffect, useState } from "react";
 
-import AddFolderModal from "../components/AddFolderModal";
+import AddFolderModal from "../components/Modal/AddFolderModal";
 import AddLink from "../components/AddLink";
 import ChageFolderNameImage from "../components/Folder/ChageFolderNameImage";
 import DeleteFolderImage from "../components/Folder/DeleteFolderImage";
 import { Folder } from "../type/folder";
 import Header from "../components/Header";
-import { Link } from "../type/link";
 import LinkItem from "../components/LinkItem";
 import NoLinks from "../components/NoLinks";
 import SearchLinkPart from "../components/LinksPage/SerchLinkPart";
@@ -25,7 +25,7 @@ export default function Links() {
   useEffect(() => {
     const fetchLinkList = async () => {
       try {
-        const response = await getLinks();
+        const response: LinkResponse = await getLinks();
         setLinkList(response.list);
       } catch (error) {
         console.error("fetchLinkList 에러", error);
@@ -38,8 +38,8 @@ export default function Links() {
   useEffect(() => {
     const fetchFolderList = async () => {
       try {
-        const response = await getFolder();
-        setFolderList(response.data);
+        const response: Folder[] = await getFolder();
+        setFolderList(response);
       } catch (error) {
         console.error("fetchFolderList 에러", error);
       }
@@ -50,9 +50,14 @@ export default function Links() {
   // 폴더 클릭 시 링크 리스트 변경
   const handleFolderClick = async (folderId: number, folderName: string) => {
     try {
-      const fetchLinks = await getLinksById(folderId);
+      const fetchLinks: LinksByIdResponse = await getLinksById(folderId);
       setLinkList(fetchLinks.list);
-      setCurrentFolder({ id: folderId, name: folderName });
+      setCurrentFolder({
+        id: folderId,
+        name: folderName,
+        createdAt: new Date().toISOString(),
+        linkCount: fetchLinks.list.length,
+      });
     } catch (error) {
       console.error("handleFolderClick 에러", error);
     }
