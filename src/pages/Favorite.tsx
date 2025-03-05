@@ -1,6 +1,6 @@
+import { Link, LinkResponse } from "../type/link";
 import { useEffect, useState } from "react";
 
-import { FavoriteResponse } from "../type/link";
 import Header from "../components/Header";
 import LinkItem from "../components/LinkItem";
 import NoLinks from "../components/NoLinks";
@@ -11,7 +11,7 @@ export default function Favorite() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response: FavoriteResponse = await getFavorite();
+        const response: LinkResponse = await getFavorite();
         setFavoriteList(response.list);
       } catch (error) {
         console.error("fetchData 에러", error);

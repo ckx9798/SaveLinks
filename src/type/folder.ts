@@ -16,3 +16,7 @@ export interface EditFolderNameModalProps {
 export interface AddFolderModalProps {
   setIsAddFolderOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface AddLinkProps {
+  folderList: Folder[];
+}
