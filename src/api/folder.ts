@@ -1,45 +1,51 @@
+import { AxiosError, AxiosResponse } from "axios";
+
+import { Folder } from "../type/folder";
 import apiClient from "./axiosInstance";
 
-export const getFolder = async () => {
+// getFolder 함수
+export const getFolder = async (): Promise<Folder[]> => {
   try {
-    const response = await apiClient.get("/folders");
-    return response;
+    const response: AxiosResponse<Folder[]> = await apiClient.get("/folders");
+    return response.data;
   } catch (error) {
-    console.error("getFolder 에러", error.response?.data || error.message);
+    console.error("getFolder 에러", (error as AxiosError).response?.data || (error as Error).message);
     return [];
   }
 };
 
-export const postFolder = async (newFolderName) => {
+// postFolder 함수
+export const postFolder = async (newFolderName: string): Promise<Folder> => {
   try {
-    const response = await apiClient.post("/folders", {
+    const response: AxiosResponse<Folder> = await apiClient.post("/folders", {
       name: newFolderName,
     });
     return response.data;
   } catch (error) {
-    console.error("postFolder 에러", error.response?.data || error.message);
+    console.error("postFolder 에러", (error as AxiosError).response?.data || (error as Error).message);
     throw error;
   }
 };
 
-export const deleteFolder = async (folderId) => {
+// deleteFolder 함수
+export const deleteFolder = async (folderId: number): Promise<void> => {
   try {
-    const response = await apiClient.delete(`/folders/${folderId}`);
-    return response.data;
+    await apiClient.delete(`/folders/${folderId}`);
   } catch (error) {
-    console.error("deleteFolder 에러", error.response?.data || error.message);
+    console.error("deleteFolder 에러", (error as AxiosError).response?.data || (error as Error).message);
     throw error;
   }
 };
 
-export const changeFolderName = async (folderId, newFolderName) => {
+// changeFolderName 함수
+export const changeFolderName = async (folderId: number, newFolderName: string): Promise<Folder> => {
   try {
-    const response = await apiClient.put(`/folders/${folderId}`, {
+    const response: AxiosResponse<Folder> = await apiClient.put(`/folders/${folderId}`, {
       name: newFolderName,
     });
     return response.data;
   } catch (error) {
-    console.error("changeFolderName 에러", error.response?.data || error.message);
+    console.error("changeFolderName 에러", (error as AxiosError).response?.data || (error as Error).message);
     throw error;
   }
 };

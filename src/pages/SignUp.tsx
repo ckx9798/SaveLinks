@@ -1,10 +1,11 @@
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 import Button from "../components/Button";
 import CommonInput from "../components/CommonInput";
+import { SignUpFormInputs } from "../type/login";
 import { postSignUp } from "../api/login";
 import schema from "../zod/SingUpZod";
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,19 +15,22 @@ export default function SignUp() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(schema) });
+  } = useForm<SignUpFormInputs>({
+    resolver: zodResolver(schema),
+  });
 
   const navigate = useNavigate();
 
-  const handleSignUp = (data) => {
+  // 회원가입 핸들러 함수 타입 정의
+  const handleSignUp: SubmitHandler<SignUpFormInputs> = (data) => {
     const { email, password, name } = data;
     postSignUp(email, password, name)
       .then(() => navigate("/login"))
       .catch((error) => console.error(error));
   };
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
   return (
     <div className="flex h-screen flex-col items-center justify-center">
@@ -37,12 +41,15 @@ export default function SignUp() {
         </button>
       </div>
       <form className="flex w-full max-w-[400px] flex-col" onSubmit={handleSubmit(handleSignUp)}>
+        {/* 이메일 입력 */}
         <CommonInput register={register} name="email" placeholder="이메일을 입력해주세요" labelName="이메일" />
         {errors.email && <p className="mb-3 text-red-500">{errors.email.message}</p>}
 
+        {/* 이름 입력 */}
         <CommonInput register={register} name="name" placeholder="이름을 입력해주세요" labelName="이름" />
         {errors.name && <p className="mb-3 text-red-500">{errors.name.message}</p>}
 
+        {/* 비밀번호 입력 */}
         <div className="relative">
           <CommonInput
             register={register}
@@ -61,6 +68,7 @@ export default function SignUp() {
         </div>
         {errors.password && <p className="mb-3 text-red-500">{errors.password.message}</p>}
 
+        {/* 비밀번호 확인 입력 */}
         <div className="relative">
           <CommonInput
             register={register}
@@ -79,6 +87,7 @@ export default function SignUp() {
         </div>
         {errors.confirmPassword && <p className="mb-3 text-red-500">{errors.confirmPassword.message}</p>}
 
+        {/* 회원가입 버튼 */}
         <Button size="response" text="회원가입" />
       </form>
     </div>

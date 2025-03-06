@@ -1,6 +1,4 @@
-import React, { ButtonHTMLAttributes } from "react";
-
-type ButtonSize = "xs" | "sm" | "md" | "lg" | "response";
+import { ButtonProps } from "../type/components";
 
 const baseClass =
   "flex justify-center items-center bg-gradient-to-r from-primary to-secondary from-5% to-90% text-white01 rounded-lg text-2xl font-semibold";
@@ -12,12 +10,6 @@ const sizeClass = {
   lg: "w-[325px] h-[53px] md:w-[400px] md:h-[53px]",
   response: "w-full max-w-[400px] h-[53px]",
 };
-
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  size: ButtonSize;
-  text: string;
-  onClick?: () => void;
-}
 
 export default function Button({ size, text, ...props }: ButtonProps) {
   return (

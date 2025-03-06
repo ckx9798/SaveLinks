@@ -1,11 +1,11 @@
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // react-icons 아이콘 추가
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 import Button from "../components/Button";
 import CommonInput from "../components/CommonInput";
-import { getFolder } from "../api/folder";
+import { LoginFormInputs } from "../type/login";
 import { postLogin } from "../api/login";
 import schema from "../zod/LoginZod";
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,15 +15,16 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<LoginFormInputs>({
     resolver: zodResolver(schema),
     mode: "onChange",
   });
 
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false); // 비밀번호 보이기/숨기기 상태
+  const [showPassword, setShowPassword] = useState<boolean>(false); // 비밀번호 보이기/숨기기 상태
 
-  const handleLogin = (data) => {
+  // 로그인 핸들러 함수 타입 정의
+  const handleLogin: SubmitHandler<LoginFormInputs> = (data) => {
     const { email, password } = data;
     postLogin(email, password)
       .then(() => navigate("/links"))

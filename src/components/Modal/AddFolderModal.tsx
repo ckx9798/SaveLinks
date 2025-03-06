@@ -1,9 +1,10 @@
-import Button from "./Button";
+import { AddFolderModalProps } from "../../type/folder";
+import Button from "../Button";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import { postFolder } from "../api/folder";
+import { postFolder } from "../../api/folder";
 import { useState } from "react";
 
-export default function AddFolderModal({ setIsAddFolderOpen }) {
+export default function AddFolderModal({ setIsAddFolderOpen }: AddFolderModalProps) {
   const [newFolderName, setNewFolderName] = useState("");
 
   const fetchPostFolder = () => {
@@ -19,11 +20,11 @@ export default function AddFolderModal({ setIsAddFolderOpen }) {
           onClick={() => setIsAddFolderOpen(false)}
         />
 
-        <h2 className="mb-5 text-4xl">폴더 이름</h2>
+        <h2 className="mb-5 text-4xl">Folder Name</h2>
         <input
           type="text"
           className="rounded-md border border-black px-4 py-1 text-2xl placeholder:text-xl focus:border-primary focus:outline-none"
-          placeholder="폴더명을 입력해주세요"
+          placeholder="Please enter folder name"
           onChange={(e) => {
             setNewFolderName(e.target.value);
           }}

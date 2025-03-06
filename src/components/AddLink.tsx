@@ -1,8 +1,9 @@
+import { AddLinkProps } from "../type/folder";
 import Button from "./Button";
-import SelectFolderModal from "./Modal/SelectFolderModal";
+import SelectLinkFolderModal from "./Modal/SelectLinkFolderModal";
 import { useState } from "react";
 
-export default function AddLink({ folderList }) {
+export default function AddLink({ folderList }: AddLinkProps) {
   const [newLink, setNewLink] = useState("");
   const [isModal, setIsModal] = useState(false);
 
@@ -25,7 +26,7 @@ export default function AddLink({ folderList }) {
         </div>
         <Button size="xs" text="Add" onClick={handleModalOpen} />
       </div>
-      {isModal && <SelectFolderModal setIsModal={setIsModal} folderList={folderList} newLink={newLink} />}
+      {isModal && <SelectLinkFolderModal setIsModal={setIsModal} folderList={folderList} newLink={newLink} />}
     </>
   );
 }

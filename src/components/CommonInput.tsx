@@ -1,17 +1,19 @@
-interface ICommonInput {
-  labelName: string;
-  register: any;
-  name: string;
-  placeholder: string;
-}
+import { CommonInputProps } from "../type/components";
+import { FieldValues } from "react-hook-form";
 
-export default function CommonInput({ labelName, register, name, placeholder, type = "text" }: ICommonInput) {
+export default function CommonInput<T extends FieldValues>({
+  labelName,
+  register,
+  name,
+  placeholder,
+  type = "text",
+}: CommonInputProps<T>) {
   return (
     <div className="mb-4 flex flex-col">
       <label className="mb-1 font-semibold">{labelName}</label>
       <input
         {...register(name)}
-        type={type} // ✅ 여기서 type을 적용해야 함!
+        type={type}
         placeholder={placeholder}
         className="rounded-md border p-2 outline-none focus:border-primary"
       />

@@ -1,17 +1,17 @@
+import { Link, LinkResponse } from "../type/link";
 import { useEffect, useState } from "react";
 
 import Header from "../components/Header";
 import LinkItem from "../components/LinkItem";
 import NoLinks from "../components/NoLinks";
-import Pagination from "../components/Pagination";
 import { getFavorite } from "../api/links";
 
 export default function Favorite() {
-  const [favoriteList, setFavoriteList] = useState([]);
+  const [favoriteList, setFavoriteList] = useState<Link[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getFavorite();
+        const response: LinkResponse = await getFavorite();
         setFavoriteList(response.list);
       } catch (error) {
         console.error("fetchData 에러", error);
@@ -32,19 +32,12 @@ export default function Favorite() {
       {favoriteList.length !== 0 ? (
         <div className="mx-auto grid w-full max-w-[1200px] grid-cols-2 gap-x-24 gap-y-10 px-6 md:grid-cols-3">
           {favoriteList.map((link) => (
-            <LinkItem link={link} />
+            <LinkItem link={link} key={link.id} />
           ))}
         </div>
       ) : (
         <NoLinks />
       )}
-
-      <div className="mx-auto mb-16 mt-12 flex w-full max-w-[1200px] justify-center gap-2">
-        <Pagination text={"<"} />
-        <Pagination text={">"} />
-      </div>
-
-      {/* {isAddFolderOpen && <AddFolderModal setIsAddFolderOpen={setIsAddFolderOpen} />} */}
     </>
   );
 }

@@ -1,12 +1,16 @@
-export default function LinkDropdown({ setIsEditModalOpen, setIsDeleteModalOpen }) {
-  const handleEditModal = (e) => {
+import { LinkDropdownProps } from "../type/components";
+
+export default function LinkDropdown({ setIsEditModalOpen, setIsDeleteModalOpen }: LinkDropdownProps) {
+  const handleEditModal = (e: React.MouseEvent<HTMLLIElement>) => {
     e.preventDefault();
     setIsEditModalOpen((prev) => !prev);
   };
-  const handleDeleteModal = (e) => {
+
+  const handleDeleteModal = (e: React.MouseEvent<HTMLLIElement>) => {
     e.preventDefault();
     setIsDeleteModalOpen((prev) => !prev);
   };
+
   return (
     <>
       <div className="absolute right-1 top-6 mt-2 w-40 rounded-md bg-white shadow-lg">
