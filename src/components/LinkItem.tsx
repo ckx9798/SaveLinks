@@ -48,7 +48,7 @@ export default function LinkItem({ link }: LinkItemProps) {
   return (
     <>
       <a href={nomalizeUrl(link.url)} target="_blank">
-        <div className="relative h-[260px] w-[270px] overflow-hidden rounded-xl shadow-xl hover:scale-110 md:h-[440px] md:w-[400px] lg:w-[340px]">
+        <div className="relative mt-4 h-[260px] w-[300px] overflow-hidden rounded-xl shadow-xl hover:scale-110 sm:w-[300px] md:h-[440px] md:w-[380px] lg:w-[330px]">
           {/* 즐겨찾기 아이콘 */}
           <TiStarFullOutline
             className={`absolute right-1 top-1 text-3xl ${eachLink.favorite ? "text-yellow-300" : "text-slate-400"}`}

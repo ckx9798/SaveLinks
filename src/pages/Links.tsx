@@ -100,7 +100,7 @@ export default function Links() {
 
       {/* 링크 목록 */}
       {(searchLink ? filteredLinks : linkList).length !== 0 ? (
-        <div className="align-items-center mx-auto mb-10 grid w-full max-w-[1200px] grid-cols-2 justify-items-center gap-x-4 gap-y-6 px-3 md:grid-cols-2 md:gap-y-12 md:px-6 lg:grid-cols-3 lg:gap-x-20 lg:px-0">
+        <div className="align-items-center mx-auto mb-10 grid w-full max-w-[1200px] grid-cols-1 justify-items-center sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10">
           {(searchLink ? filteredLinks : linkList).map((link) => (
             <LinkItem key={link.id} link={link} />
           ))}
