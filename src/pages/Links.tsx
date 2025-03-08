@@ -1,6 +1,5 @@
-import { Link, LinkResponse, LinksByIdResponse } from "../type/link";
+import { LinkResponse, LinksByIdResponse } from "../type/link";
 import { getLinks, getLinksById } from "../api/links";
-import { useEffect, useState } from "react";
 
 import AddFolderModal from "../components/Modal/AddFolderModal";
 import AddLink from "../components/AddLink";
@@ -13,55 +12,54 @@ import NoLinks from "../components/NoLinks";
 import SearchLinkPart from "../components/LinksPage/SerchLinkPart";
 import SeletFolderPart from "../components/LinksPage/SeletFolderPart";
 import { getFolder } from "../api/folder";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 export default function Links() {
-  const [linkList, setLinkList] = useState<Link[]>([]); // 링크 리스트 상태
-  const [folderList, setFolderList] = useState<Folder[]>([]); // 폴더 리스트 상태
   const [currentFolder, setCurrentFolder] = useState<Folder | null>(null); // 현재 선택된 폴더
   const [isAddFolderOpen, setIsAddFolderOpen] = useState<boolean>(false); // 폴더 추가 모달 상태
   const [searchLink, setSearchLink] = useState<string>(""); // 검색어 상태
 
   // 링크 리스트 가져오기 API 요청
-  useEffect(() => {
-    const fetchLinkList = async () => {
-      try {
-        const response: LinkResponse = await getLinks();
-        setLinkList(response.list);
-      } catch (error) {
-        console.error("fetchLinkList 에러", error);
-      }
-    };
-    fetchLinkList();
-  }, []);
+  const { data: linksData } = useQuery<LinkResponse>({
+    queryKey: ["links"],
+    queryFn: getLinks,
+  });
 
   // 폴더 리스트 가져오기 API 요청
-  useEffect(() => {
-    const fetchFolderList = async () => {
-      try {
-        const response: Folder[] = await getFolder();
-        setFolderList(response);
-      } catch (error) {
-        console.error("fetchFolderList 에러", error);
-      }
-    };
-    fetchFolderList();
-  }, []);
+  const { data: folderData } = useQuery<Folder[]>({
+    queryKey: ["folders"],
+    queryFn: getFolder,
+  });
+  const folderList = folderData || [];
 
   // 폴더 클릭 시 링크 리스트 변경
-  const handleFolderClick = async (folderId: number, folderName: string) => {
-    try {
-      const fetchLinks: LinksByIdResponse = await getLinksById(folderId);
-      setLinkList(fetchLinks.list);
+  const { data: folderLinksData } = useQuery<LinksByIdResponse>({
+    queryKey: ["folderLinks", currentFolder?.id],
+    queryFn: () => {
+      if (!currentFolder) {
+        return Promise.resolve({ list: [], totalCount: 0 } as LinksByIdResponse);
+      }
+      return getLinksById(currentFolder.id);
+    },
+    enabled: !!currentFolder,
+  });
+
+  const handleFolderClick = (folderId: number, folderName: string) => {
+    if (folderId === 0) {
+      setCurrentFolder(null);
+    } else {
       setCurrentFolder({
         id: folderId,
         name: folderName,
         createdAt: new Date().toISOString(),
-        linkCount: fetchLinks.list.length,
+        linkCount: 0, // API 데이터에서 가져올 수 있음
       });
-    } catch (error) {
-      console.error("handleFolderClick 에러", error);
     }
   };
+
+  // 폴더 클릭 여부에 따라 리스트 결정
+  const linkList = currentFolder ? folderLinksData?.list || [] : linksData?.list || [];
 
   // 검색 필터링된 링크 리스트
   const filteredLinks = linkList.filter(
