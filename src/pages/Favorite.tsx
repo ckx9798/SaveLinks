@@ -1,24 +1,19 @@
 import { Link, LinkResponse } from "../type/link";
-import { useEffect, useState } from "react";
 
 import Header from "../components/Header";
 import LinkItem from "../components/LinkItem";
 import NoLinks from "../components/NoLinks";
 import { getFavorite } from "../api/links";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Favorite() {
-  const [favoriteList, setFavoriteList] = useState<Link[]>([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response: LinkResponse = await getFavorite();
-        setFavoriteList(response.list);
-      } catch (error) {
-        console.error("fetchData 에러", error);
-      }
-    };
-    fetchData();
-  }, []);
+  const { data: favoriteData } = useQuery<LinkResponse>({
+    queryKey: ["favoriteLinks"],
+    queryFn: getFavorite,
+  });
+
+  // ✅ `useState` 없이 데이터를 바로 사용
+  const favoriteList: Link[] = favoriteData?.list || [];
 
   return (
     <>
@@ -30,7 +25,7 @@ export default function Favorite() {
       </div>
       <div className="mx-6 mt-6 flex flex-col items-center justify-center"></div>
       {favoriteList.length !== 0 ? (
-        <div className="mx-auto grid w-full max-w-[1200px] grid-cols-2 gap-x-24 gap-y-10 px-6 md:grid-cols-3">
+        <div className="align-items-center mx-auto mb-10 grid w-full max-w-[1200px] grid-cols-1 justify-items-center sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10">
           {favoriteList.map((link) => (
             <LinkItem link={link} key={link.id} />
           ))}
