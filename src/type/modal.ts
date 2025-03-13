@@ -15,3 +15,9 @@ export interface SelectLinkFolderModalProps {
   folderList: Folder[];
   newLink: string;
 }
+
+export interface UserDropdownProps {
+  onClose: () => void;
+  onProfileClick: () => void;
+  onLogoutClick: () => void;
+}
