@@ -79,7 +79,7 @@ export default function LinkItem({ link }: LinkItemProps) {
 
             {/* 설명 */}
             <h2 className="my-1 line-clamp-2 min-h-[48px] text-xl leading-6 md:my-2 md:min-h-[64px] md:text-2xl md:font-medium">
-              {link.description}
+              {link.description || `Move to ${eachLink.title}`}
             </h2>
 
             {/* 날짜 */}
