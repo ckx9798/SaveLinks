@@ -3,14 +3,18 @@ import { CiBookmarkCheck } from "react-icons/ci";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { SelectLinkFolderModalProps } from "../../type/modal";
 import { postLinks } from "../../api/links";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function SelectLinkFolderModal({ setIsModal, folderList, newLink }: SelectLinkFolderModalProps) {
   const [selectFolder, setSelectFolder] = useState<number | null>(null);
 
-  const handlePostNewLink = () => {
+  const queryClient = useQueryClient();
+
+  const handlePostNewLink = async () => {
     if (selectFolder !== null) {
-      postLinks(newLink, selectFolder);
+      await postLinks(newLink, selectFolder);
+      await queryClient.invalidateQueries({ queryKey: ["links"] }); // "links" 쿼리 무효화
       setIsModal(false);
     }
   };

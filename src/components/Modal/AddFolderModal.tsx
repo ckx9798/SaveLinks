@@ -2,13 +2,17 @@ import { AddFolderModalProps } from "../../type/folder";
 import Button from "../Button";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { postFolder } from "../../api/folder";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function AddFolderModal({ setIsAddFolderOpen }: AddFolderModalProps) {
   const [newFolderName, setNewFolderName] = useState("");
 
-  const fetchPostFolder = () => {
-    postFolder(newFolderName);
+  const queryClient = useQueryClient();
+
+  const handlePostNewFolder = async () => {
+    await postFolder(newFolderName); // 새로운 폴더 추가
+    await queryClient.invalidateQueries({ queryKey: ["folders"] }); // "folders" 쿼리 무효화
     setIsAddFolderOpen(false);
   };
 
@@ -30,7 +34,7 @@ export default function AddFolderModal({ setIsAddFolderOpen }: AddFolderModalPro
           }}
         />
         <div className="mt-auto">
-          <Button size="md" text="추가하기" onClick={fetchPostFolder} />
+          <Button size="md" text="추가하기" onClick={handlePostNewFolder} />
         </div>
       </div>
     </div>

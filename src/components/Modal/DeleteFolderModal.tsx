@@ -2,16 +2,22 @@ import Button from "../Button";
 import { EditFolderNameModalProps } from "../../type/folder";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { deleteFolder } from "../../api/folder";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function DeleteFolderModal({ currentFolder, setIsModalOpen }: EditFolderNameModalProps) {
+  const queryClient = useQueryClient();
+
   const handleDeleteFolder = async () => {
     try {
-      await deleteFolder(currentFolder.id);
-      setIsModalOpen(false);
+      await deleteFolder(currentFolder.id); // 폴더 삭제 요청
+      await queryClient.invalidateQueries({ queryKey: ["folders"] }); // "folders" 쿼리 무효화
+      setIsModalOpen(false); // 모달 닫기
+      window.location.reload(); // 삭제 후 페이지 새로고침
     } catch (error) {
       console.error("폴더 삭제 중 오류", error);
     }
   };
+
   const handleModalClose = () => setIsModalOpen(false);
 
   return (
