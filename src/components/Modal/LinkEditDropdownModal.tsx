@@ -2,20 +2,24 @@ import Button from "../Button";
 import { EditLinkUrl } from "../../api/links";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { LinkEditDropdownModalProps } from "../../type/modal";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function LinkEditDropdownModal({ setIsEditModalOpen, linkId }: LinkEditDropdownModalProps) {
   const [newLink, setNewLink] = useState<string>("");
 
+  const queryClient = useQueryClient();
+
   const handleModalClose = (e: React.MouseEvent<SVGElement, MouseEvent>): void => {
     e.preventDefault();
-    setIsEditModalOpen((prev) => !prev);
+    setIsEditModalOpen(false);
   };
 
   const sendEditLinkRequest = async (): Promise<void> => {
     try {
       await EditLinkUrl(linkId, newLink);
-      setIsEditModalOpen((prev) => !prev);
+      await queryClient.invalidateQueries({ queryKey: ["links"] }); // "links" 쿼리 무효화
+      setIsEditModalOpen(false);
     } catch (error) {
       console.error("폴더명 수정 중 오류", error);
     }
