@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import Favorite from "./pages/Favorite";
 import Home from "./pages/Home";
+import Layout from "./components/layout/Layout";
 import Links from "./pages/Links";
 import Login from "./pages/Login";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"; // Devtools 추가
@@ -41,11 +42,13 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/links" element={<Links />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/todos" element={<Todos />} />
-          <Route path="/favorite" element={<Favorite />} />
+          <Route element={<Layout />}>
+            <Route path="/links" element={<Links />} />
+            <Route path="/todos" element={<Todos />} />
+            <Route path="/favorite" element={<Favorite />} />
+          </Route>
         </Routes>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
