@@ -1,6 +1,5 @@
 import { Link, LinkResponse } from "../type/link";
 
-import Header from "../components/Header";
 import LinkItem from "../components/LinkItem";
 import NoLinks from "../components/NoLinks";
 import { getFavorite } from "../api/links";
