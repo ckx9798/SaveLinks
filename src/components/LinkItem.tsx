@@ -8,10 +8,27 @@ import { putFavorite } from "../api/links";
 import { useState } from "react";
 
 export default function LinkItem({ link }: LinkItemProps) {
-  // 서버 url
-  const linkSource = link.imageSource || "/link.svg";
+  // 응답 이미지 처리
+  const isValidImage = (src: string | undefined) => {
+    if (!src) return false; // 값이 없으면 false
+
+    // 백엔드에서 오는 잘못된 값 예외처리
+    if (src.startsWith("/meta") || src === "/link.svg") return false;
+
+    // 올바른 URL인지 확인 (http:// or https:// 로 시작)
+    const isValidURL = /^(https?:\/\/)/.test(src);
+
+    // 이미지 확장자 검증
+    const isImageFile = /\.(jpeg|jpg|gif|png|webp|svg)$/i.test(src);
+
+    return isValidURL && isImageFile;
+  };
+
+  const linkSource = isValidImage(link.imageSource) ? link.imageSource : "/link.svg"; // 기본 이미지 설정
   const linkSourceClass =
-    linkSource === "/link.svg" ? "h-[130px] md:h-3/5 w-full" : "h-[130px] md:h-3/5 w-full object-cover";
+    linkSource === "/link.svg"
+      ? "h-[130px] md:h-3/5 w-full p-6 md:p-12 lg:p-14"
+      : "h-[130px] md:h-3/5 w-full object-cover";
 
   // url 로직 통일
   const nomalizeUrl = (url: string) => {

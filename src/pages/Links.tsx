@@ -2,11 +2,9 @@ import { LinkResponse, LinksByIdResponse } from "../type/link";
 import { getLinks, getLinksById } from "../api/links";
 
 import AddFolderModal from "../components/Modal/AddFolderModal";
-import AddLink from "../components/AddLink";
 import ChageFolderNameImage from "../components/Folder/ChageFolderNameImage";
 import DeleteFolderImage from "../components/Folder/DeleteFolderImage";
 import { Folder } from "../type/folder";
-import Header from "../components/Header";
 import LinkItem from "../components/LinkItem";
 import NoLinks from "../components/NoLinks";
 import SearchLinkPart from "../components/LinksPage/SerchLinkPart";
@@ -70,12 +68,6 @@ export default function Links() {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center justify-center bg-gray05 px-3">
-        <Header />
-        <div className="mb-8 flex h-[80px] w-full items-center justify-center md:h-[120px]">
-          <AddLink folderList={folderList} />
-        </div>
-      </div>
       <div className="mx-3 mt-5 flex flex-col items-center justify-center md:mx-6">
         {/* 링크 검색 */}
         <SearchLinkPart setSearchLink={setSearchLink} />
@@ -98,7 +90,7 @@ export default function Links() {
 
       {/* 링크 목록 */}
       {(searchLink ? filteredLinks : linkList).length !== 0 ? (
-        <div className="align-items-center mx-auto mb-10 grid w-full max-w-[1200px] grid-cols-1 justify-items-center sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10">
+        <div className="align-items-center mx-auto mb-10 grid w-full max-w-[1200px] grid-cols-1 justify-items-center sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-4">
           {(searchLink ? filteredLinks : linkList).map((link) => (
             <LinkItem key={link.id} link={link} />
           ))}
