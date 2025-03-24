@@ -10,7 +10,7 @@ export default function Header() {
 
   const moveToLinks = () => navigate("/links");
   const moveToFavorite = () => navigate("/favorite");
-  const moveToProfile = () => navigate("/todos");
+  const moveToMemos = () => navigate("/memos");
   const handleLogout = () => {
     document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     navigate("/login");
@@ -28,7 +28,8 @@ export default function Header() {
           {isMenuOpen && (
             <UserDropdown
               onClose={() => setIsMenuOpen(false)}
-              onProfileClick={moveToProfile}
+              onLinkClick={moveToLinks}
+              onMemoClick={moveToMemos}
               onLogoutClick={handleLogout}
             />
           )}
