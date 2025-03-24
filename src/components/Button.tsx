@@ -1,7 +1,6 @@
 import { ButtonProps } from "../type/components";
 
-const baseClass =
-  "flex justify-center items-center bg-gradient-to-r from-primary to-secondary from-5% to-90% text-white01 rounded-lg text-2xl font-semibold";
+const baseClass = "flex justify-center items-center text-white01 rounded-lg text-2xl font-semibold";
 
 const sizeClass = {
   xs: "w-[90px] h-[37px]",
@@ -11,9 +10,11 @@ const sizeClass = {
   response: "w-full max-w-[400px] h-[53px]",
 };
 
-export default function Button({ size, text, ...props }: ButtonProps) {
+export default function Button({ size, color, text, ...props }: ButtonProps) {
+  const dynamicColorClass = color || "bg-gradient-to-r from-primary to-secondary";
+
   return (
-    <button {...props} className={`${baseClass} ${sizeClass[size]}`}>
+    <button {...props} className={`${baseClass} ${sizeClass[size]} ${dynamicColorClass}`}>
       {text}
     </button>
   );

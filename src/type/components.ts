@@ -7,6 +7,7 @@ type ButtonSize = "xs" | "sm" | "md" | "lg" | "response";
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size: ButtonSize;
   text: string;
+  color?: string;
   onClick?: () => void;
 }
 
