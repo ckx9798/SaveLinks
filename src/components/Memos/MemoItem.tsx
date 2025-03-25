@@ -1,4 +1,4 @@
-import EditTodoModal from "./EditMemoModal";
+import EditMemoModal from "./EditMemoModal";
 import { MemoItemProps } from "../../type/memo";
 import { useState } from "react";
 
@@ -23,7 +23,7 @@ export default function MemoItem({ memo, setMemos, selectedMemo, setSelectedMemo
         </div>
       </div>
       {isEditMemoModalOpen && selectedMemo && (
-        <EditTodoModal
+        <EditMemoModal
           setIsEditMemoModalOpen={setIsEditMemoModalOpen}
           selectedMemo={selectedMemo}
           setSelectedMemo={setSelectedMemo}
