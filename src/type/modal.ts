@@ -22,4 +22,3 @@ export interface UserDropdownProps {
   onMemoClick: () => void;
   onLogoutClick: () => void;
 }
-s;
