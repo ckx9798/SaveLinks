@@ -18,6 +18,7 @@ export interface SelectLinkFolderModalProps {
 
 export interface UserDropdownProps {
   onClose: () => void;
-  onProfileClick: () => void;
+  onLinkClick: () => void;
+  onMemoClick: () => void;
   onLogoutClick: () => void;
 }
