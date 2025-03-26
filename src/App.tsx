@@ -9,9 +9,9 @@ import Home from "./pages/Home";
 import Layout from "./components/layout/Layout";
 import Links from "./pages/Links";
 import Login from "./pages/Login";
+import Memos from "./pages/Memos";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"; // Devtools 추가
 import SignUp from "./pages/SignUp";
-import Todos from "./pages/Todos";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 
@@ -44,9 +44,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/memos" element={<Memos />} />
           <Route element={<Layout />}>
             <Route path="/links" element={<Links />} />
-            <Route path="/todos" element={<Todos />} />
             <Route path="/favorite" element={<Favorite />} />
           </Route>
         </Routes>

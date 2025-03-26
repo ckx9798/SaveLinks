@@ -1,13 +1,29 @@
+import { useEffect, useState } from "react";
+
 import AddMemo from "../components/Memos/AddMemo";
 import Header from "../components/Header";
 import MemoItem from "../components/Memos/MemoItem";
 import { MemoProps } from "../type/memo";
 import NoMemos from "../components/Memos/NoMemos";
-import { useState } from "react";
 
 export default function Memos() {
-  const [memos, setMemos] = useState<MemoProps[]>([]); // 메모 배열
   const [selectedMemo, setSelectedMemo] = useState<MemoProps | null>(null); // 선택된 메모
+
+  // 메모 로컬스토리지에서 불러오기
+  const [memos, setMemos] = useState<MemoProps[]>(() => {
+    try {
+      const stored = localStorage.getItem("memos");
+      return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      console.error("로컬스토리지 파싱 에러:", e);
+      return [];
+    }
+  });
+
+  // memos 상태가 바뀔 때마다 로컬스토리지에 저장
+  useEffect(() => {
+    localStorage.setItem("memos", JSON.stringify(memos));
+  }, [memos]);
 
   return (
     <>
