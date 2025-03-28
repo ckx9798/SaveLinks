@@ -3,17 +3,20 @@ import "./styles/global.css";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React, { Suspense } from "react";
 
-import Favorite from "./pages/Favorite";
-import Home from "./pages/Home";
-import Layout from "./components/layout/Layout";
-import Links from "./pages/Links";
-import Login from "./pages/Login";
-import Memos from "./pages/Memos";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"; // Devtools 추가
-import SignUp from "./pages/SignUp";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
+
+// Lazy-loaded components
+const Favorite = React.lazy(() => import("./pages/Favorite"));
+const Home = React.lazy(() => import("./pages/Home"));
+const Layout = React.lazy(() => import("./components/layout/Layout"));
+const Links = React.lazy(() => import("./pages/Links"));
+const Login = React.lazy(() => import("./pages/Login"));
+const SignUp = React.lazy(() => import("./pages/SignUp"));
+const Memos = React.lazy(() => import("./pages/Memos"));
 
 // QueryClient 인스턴스 생성
 const queryClient = new QueryClient({
@@ -40,16 +43,18 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/memos" element={<Memos />} />
-          <Route element={<Layout />}>
-            <Route path="/links" element={<Links />} />
-            <Route path="/favorite" element={<Favorite />} />
-          </Route>
-        </Routes>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/memos" element={<Memos />} />
+            <Route element={<Layout />}>
+              <Route path="/links" element={<Links />} />
+              <Route path="/favorite" element={<Favorite />} />
+            </Route>
+          </Routes>
+        </Suspense>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
