@@ -32,10 +32,10 @@ export default function Login() {
   };
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center">
+    <div className="flex h-screen flex-col items-center justify-center bg-[url(login_bg.png)] bg-cover px-6 md:px-4">
       <div className="flex flex-col items-center justify-center">
-        <img src="/savelinks.svg" width={180} alt="Logo" />
-        <button className="text-primary" onClick={() => navigate("/signup")}>
+        <img src="/saveLinks_logo.png" width={400} alt="Logo" />
+        <button className="-mt-16 text-lg text-gray01" onClick={() => navigate("/signup")}>
           Signup
         </button>
       </div>
@@ -45,7 +45,7 @@ export default function Login() {
         {errors.email && <p className="mb-3 text-red-500">{errors.email.message}</p>}
 
         {/* 비밀번호 입력 */}
-        <div className="relative">
+        <div className="relative mb-6">
           <CommonInput
             register={register}
             name="password"
