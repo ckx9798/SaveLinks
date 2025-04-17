@@ -33,10 +33,10 @@ export default function SignUp() {
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center">
+    <div className="flex h-screen flex-col items-center justify-center bg-[url(login_bg.png)] bg-cover px-6 md:px-4">
       <div className="flex flex-col items-center justify-center">
-        <img src="/savelinks.svg" width={180} alt="Logo" />
-        <button className="text-primary" onClick={() => navigate("/login")}>
+        <img src="/saveLinks_logo.png" width={400} alt="Logo" />
+        <button className="-mt-16 text-lg text-gray01" onClick={() => navigate("/login")}>
           Login
         </button>
       </div>
@@ -69,7 +69,7 @@ export default function SignUp() {
         {errors.password && <p className="mb-3 text-red-500">{errors.password.message}</p>}
 
         {/* 비밀번호 확인 입력 */}
-        <div className="relative">
+        <div className="relative mb-6">
           <CommonInput
             register={register}
             name="confirmPassword"
@@ -79,7 +79,7 @@ export default function SignUp() {
           />
           <button
             type="button"
-            className="absolute right-3 top-[50%] translate-y-[-20%] text-gray-500"
+            className="absolute right-3 top-[50%] mb-5 translate-y-[-20%] text-gray-500"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
           >
             {showConfirmPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
