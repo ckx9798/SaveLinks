@@ -10,7 +10,7 @@ export default function Layout() {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center justify-center bg-gray05 px-3">
+      <div className="flex w-full flex-col items-center justify-center bg-[url(links_bg.png)] bg-cover px-3">
         <Header />
         <div className="mb-8 flex h-[80px] w-full items-center justify-center md:h-[120px]">
           <AddLink folderList={folderList} />

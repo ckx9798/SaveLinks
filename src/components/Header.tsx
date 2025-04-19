@@ -17,13 +17,13 @@ export default function Header() {
   };
 
   return (
-    <div className="relative my-4 flex h-[65px] w-full max-w-[1200px] items-center justify-between bg-gray05 md:my-6">
-      <img src="/savelinks.svg" onClick={moveToLinks} className="cursor-pointer" />
+    <div className="relative my-4 flex h-[65px] w-full max-w-[1200px] items-center justify-between md:my-6">
+      <img src="/saveLinks_logo.png" onClick={moveToLinks} className="-ml-10 cursor-pointer md:-ml-6" width={200} />
       <div className="flex gap-4">
         <UserFavoriteLinks onClick={moveToFavorite} />
         <div className="relative">
-          <div className="rounded-full bg-logo p-1">
-            <FaUserCircle className="cursor-pointer text-3xl text-white" onClick={() => setIsMenuOpen(!isMenuOpen)} />
+          <div className="rounded-full bg-gray01 p-1">
+            <FaUserCircle className="cursor-pointer text-3xl" onClick={() => setIsMenuOpen(!isMenuOpen)} />
           </div>
           {isMenuOpen && (
             <UserDropdown
