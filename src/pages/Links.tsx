@@ -67,8 +67,8 @@ export default function Links() {
   );
 
   return (
-    <>
-      <div className="mx-3 mt-5 flex flex-col items-center justify-center md:mx-6">
+    <div className="bg-gray04 pb-20">
+      <div className="mx-3 flex flex-col items-center justify-center pt-10 md:mx-6">
         {/* 링크 검색 */}
         <SearchLinkPart setSearchLink={setSearchLink} />
         <SeletFolderPart
@@ -78,8 +78,8 @@ export default function Links() {
         />
 
         {currentFolder && (
-          <div className="my-3 mb-6 flex w-full max-w-[1200px] items-center justify-between md:mb-10">
-            <div className="ml-1 text-3xl font-semibold lg:text-4xl">{currentFolder.name}</div>
+          <div className="my-3 flex w-full max-w-[1200px] items-center justify-between md:mb-10">
+            <div className="ml-1 text-3xl font-semibold text-gray02 lg:text-4xl">{currentFolder.name}</div>
             <div className="flex gap-4">
               <ChageFolderNameImage currentFolder={currentFolder} />
               <DeleteFolderImage currentFolder={currentFolder} />
@@ -90,7 +90,7 @@ export default function Links() {
 
       {/* 링크 목록 */}
       {(searchLink ? filteredLinks : linkList).length !== 0 ? (
-        <div className="align-items-center mx-auto mb-10 grid w-full max-w-[1200px] grid-cols-1 justify-items-center sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-4">
+        <div className="align-items-center mx-auto mb-10 grid w-full max-w-[1200px] grid-cols-1 justify-items-center gap-4 pt-4 sm:grid-cols-2 md:gap-y-8 lg:grid-cols-3 lg:gap-x-10">
           {(searchLink ? filteredLinks : linkList).map((link) => (
             <LinkItem key={link.id} link={link} />
           ))}
@@ -100,6 +100,6 @@ export default function Links() {
       )}
 
       {isAddFolderOpen && <AddFolderModal setIsAddFolderOpen={setIsAddFolderOpen} />}
-    </>
+    </div>
   );
 }
