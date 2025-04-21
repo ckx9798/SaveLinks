@@ -27,28 +27,30 @@ export default function Memos() {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center justify-center bg-gray05 px-3">
+      <div className="flex w-full flex-col items-center justify-center bg-[url(links_bg.png)] bg-cover px-3">
         <Header />
         <div className="mb-8 flex h-[80px] w-full items-center justify-center md:h-[120px]">
           <AddMemo memos={memos} setMemos={setMemos} />
         </div>
       </div>
 
-      {memos.length !== 0 ? (
-        <div className="align-items-center mx-auto mb-6 grid w-full max-w-[1200px] grid-cols-2 justify-items-center gap-x-2 px-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-4">
-          {memos.map((memo) => (
-            <MemoItem
-              key={memo.id}
-              memo={memo}
-              setMemos={setMemos}
-              selectedMemo={selectedMemo}
-              setSelectedMemo={setSelectedMemo}
-            />
-          ))}
-        </div>
-      ) : (
-        <NoMemos />
-      )}
+      <div className="h-full min-h-[100vh] bg-gray04 py-4">
+        {memos.length !== 0 ? (
+          <div className="align-items-center mx-auto mb-6 grid w-full max-w-[1200px] grid-cols-2 justify-items-center gap-x-2 px-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-4">
+            {memos.map((memo) => (
+              <MemoItem
+                key={memo.id}
+                memo={memo}
+                setMemos={setMemos}
+                selectedMemo={selectedMemo}
+                setSelectedMemo={setSelectedMemo}
+              />
+            ))}
+          </div>
+        ) : (
+          <NoMemos />
+        )}
+      </div>
     </>
   );
 }

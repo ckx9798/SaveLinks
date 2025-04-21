@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex h-[550px] w-screen flex-col gap-4 bg-[url(/home_bg.png)] bg-cover md:h-[800px] md:gap-10 lg:h-[1200px]">
+      <div className="flex h-screen w-screen flex-col gap-4 bg-[url(/home_bg.png)] bg-cover md:h-[800px] md:gap-10 lg:h-[1200px]">
         <div className="flex w-full items-center justify-between pr-2 sm:px-6 md:px-8 lg:px-28">
           <img src="/saveLinks_logo.png" onClick={() => navigate("links")} className="-ml-6 w-[180px] md:w-[300px]" />
           <Button size="sm" text="로그인" onClick={() => navigate("login")}></Button>
@@ -41,7 +41,7 @@ export default function Home() {
       </div>
 
       <div
-        className="flex flex-col items-center bg-[#FAFAFA] pt-8 md:flex-row"
+        className="flex h-screen flex-col items-center bg-[#FAFAFA] pt-8 md:flex-row"
         data-aos="fade-down"
         data-aos-offset="300"
         data-aos-easing="ease-in-sine"
@@ -60,7 +60,7 @@ export default function Home() {
       </div>
 
       <div
-        className="flex flex-col items-center bg-[#F5F5F5] pt-8 md:flex-row"
+        className="flex h-screen flex-col items-center bg-[#F5F5F5] pt-8 md:flex-row"
         data-aos="fade-left"
         data-aos-offset="300"
         data-aos-easing="ease-in-sine"
