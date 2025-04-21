@@ -13,7 +13,7 @@ export default function AddLink({ folderList }: AddLinkProps) {
 
   return (
     <>
-      <div className="flex max-h-[120px] w-full max-w-[800px] items-center justify-between rounded-xl border border-primary bg-white px-3 py-2 md:px-5 md:py-2">
+      <div className="flex max-h-[120px] w-full max-w-[800px] items-center justify-between rounded-xl border-2 border-primary bg-gray01 px-3 py-2 md:px-5 md:py-2">
         <div className="flex w-full gap-5">
           <img src="/link.svg" />
           <input

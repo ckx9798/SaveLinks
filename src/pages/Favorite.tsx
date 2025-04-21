@@ -11,14 +11,12 @@ export default function Favorite() {
     queryFn: getFavorite,
   });
 
-  // ✅ `useState` 없이 데이터를 바로 사용
   const favoriteList: Link[] = favoriteData?.list || [];
 
   return (
-    <>
-      <div className="mx-6 mt-6 flex flex-col items-center justify-center"></div>
+    <div className="h-screen bg-gray04">
       {favoriteList.length !== 0 ? (
-        <div className="align-items-center mx-auto mb-10 grid w-full max-w-[1200px] grid-cols-1 justify-items-center sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10">
+        <div className="align-items-center mx-auto mb-10 grid w-full max-w-[1200px] grid-cols-1 justify-items-center pt-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10">
           {favoriteList.map((link) => (
             <LinkItem link={link} key={link.id} />
           ))}
@@ -26,6 +24,6 @@ export default function Favorite() {
       ) : (
         <NoLinks />
       )}
-    </>
+    </div>
   );
 }

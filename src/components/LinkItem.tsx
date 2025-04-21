@@ -64,8 +64,8 @@ export default function LinkItem({ link }: LinkItemProps) {
 
   return (
     <>
-      <a href={nomalizeUrl(link.url)} target="_blank">
-        <div className="relative mt-4 h-[260px] w-[300px] overflow-hidden rounded-xl shadow-xl hover:scale-105 sm:w-[300px] md:h-[440px] md:w-[380px] lg:w-[360px]">
+      <a href={nomalizeUrl(link.url)} target="_blank" className="overflow-hidden rounded-xl bg-gray01">
+        <div className="relative h-[260px] w-[300px] overflow-hidden shadow-xl hover:scale-105 sm:w-[300px] md:h-[440px] md:w-[380px] lg:w-[360px]">
           {/* 즐겨찾기 아이콘 */}
           <TiStarFullOutline
             className={`absolute right-1 top-1 text-3xl ${eachLink.favorite ? "text-yellow-300" : "text-slate-400"}`}
