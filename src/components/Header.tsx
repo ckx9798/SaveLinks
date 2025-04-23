@@ -1,4 +1,5 @@
-import UserDropdown from "./Modal/UserDropdown";
+import { Suspense, lazy } from "react";
+
 import UserFavoriteLinks from "./UserFavoriteLinks";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -14,6 +15,8 @@ export default function Header() {
     document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     navigate("/login");
   };
+
+  const UserDropdown = lazy(() => import("./Modal/UserDropdown"));
 
   return (
     <div className="relative my-4 flex h-[65px] w-full max-w-[1200px] items-center justify-between md:my-6">
@@ -32,12 +35,14 @@ export default function Header() {
             <img src="/user_circle.svg" alt="" width={24} onClick={() => setIsMenuOpen(!isMenuOpen)} />
           </div>
           {isMenuOpen && (
-            <UserDropdown
-              onClose={() => setIsMenuOpen(false)}
-              onLinkClick={moveToLinks}
-              onMemoClick={moveToMemos}
-              onLogoutClick={handleLogout}
-            />
+            <Suspense>
+              <UserDropdown
+                onClose={() => setIsMenuOpen(false)}
+                onLinkClick={moveToLinks}
+                onMemoClick={moveToMemos}
+                onLogoutClick={handleLogout}
+              />
+            </Suspense>
           )}
         </div>
       </div>
