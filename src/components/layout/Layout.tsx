@@ -1,19 +1,22 @@
 import AddLink from "../AddLink";
 import Header from "../Header";
 import { Outlet } from "react-router-dom";
-import { getFolder } from "../../api/folder";
-import { useQuery } from "@tanstack/react-query";
 
 export default function Layout() {
-  const { data: folderData } = useQuery({ queryKey: ["folders"], queryFn: getFolder });
-  const folderList = folderData || [];
-
   return (
     <>
-      <div className="flex w-full flex-col items-center justify-center bg-[url(links_bg.png)] bg-cover px-3">
+      <div className="relative flex w-full flex-col items-center justify-center px-3">
+        <img
+          src="/layout_bg.webp"
+          alt="배경 이미지"
+          className="absolute left-0 top-0 -z-10 h-full w-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+        />
         <Header />
         <div className="mb-8 flex h-[80px] w-full items-center justify-center md:h-[120px]">
-          <AddLink folderList={folderList} />
+          <AddLink />
         </div>
       </div>
       <Outlet />
