@@ -1,9 +1,14 @@
-import { AddLinkProps } from "../type/folder";
+import { Suspense, lazy } from "react";
+
 import Button from "./Button";
-import SelectLinkFolderModal from "./Modal/SelectLinkFolderModal";
+import { getFolder } from "../api/folder";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-export default function AddLink({ folderList }: AddLinkProps) {
+export default function AddLink() {
+  const { data: folderData } = useQuery({ queryKey: ["folders"], queryFn: getFolder });
+  const folderList = folderData || [];
+
   const [newLink, setNewLink] = useState("");
   const [isModal, setIsModal] = useState(false);
 
@@ -11,14 +16,16 @@ export default function AddLink({ folderList }: AddLinkProps) {
     setIsModal(true);
   };
 
+  const SelectLinkFolderModal = lazy(() => import("./Modal/SelectLinkFolderModal"));
+
   return (
     <>
       <div className="flex max-h-[120px] w-full max-w-[800px] items-center justify-between rounded-xl border-2 border-primary bg-gray01 px-3 py-2 md:px-5 md:py-2">
         <div className="flex w-full gap-5">
-          <img src="/link.svg" />
+          <img src="/link.svg" alt="링크이미지" loading="eager" fetchPriority="high" />
           <input
             placeholder="Try adding a link"
-            className="mr-5 w-full bg-inherit px-2 text-2xl focus:outline-none md:py-2"
+            className="text-md mr-5 w-full bg-inherit px-2 focus:outline-none md:py-2 xl:text-2xl"
             onChange={(e) => {
               setNewLink(e.target.value);
             }}
@@ -26,7 +33,11 @@ export default function AddLink({ folderList }: AddLinkProps) {
         </div>
         <Button size="xs" text="Add" onClick={handleModalOpen} />
       </div>
-      {isModal && <SelectLinkFolderModal setIsModal={setIsModal} folderList={folderList} newLink={newLink} />}
+      {isModal && (
+        <Suspense fallback={null}>
+          <SelectLinkFolderModal setIsModal={setIsModal} folderList={folderList} newLink={newLink} />
+        </Suspense>
+      )}
     </>
   );
 }
