@@ -1,11 +1,14 @@
 import "./App.css";
 import "./styles/global.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { Suspense } from "react";
 
+import PrivateRoute from "./pages/PrivateRoute";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"; // Devtools 추가
+import { ToastContainer } from "react-toastify";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 
@@ -48,13 +51,35 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/memos" element={<Memos />} />
+            <Route
+              path="/memos"
+              element={
+                <PrivateRoute>
+                  <Memos />
+                </PrivateRoute>
+              }
+            />
             <Route element={<Layout />}>
-              <Route path="/links" element={<Links />} />
-              <Route path="/favorite" element={<Favorite />} />
+              <Route
+                path="/links"
+                element={
+                  <PrivateRoute>
+                    <Links />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/favorite"
+                element={
+                  <PrivateRoute>
+                    <Favorite />
+                  </PrivateRoute>
+                }
+              />
             </Route>
           </Routes>
         </Suspense>
+        <ToastContainer position="top-center" autoClose={2000} />
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
