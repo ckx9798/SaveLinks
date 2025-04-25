@@ -7,8 +7,12 @@ const ensureProtocol = (url: string): string => {
 
 const isValidUrl = (url: string): boolean => {
   try {
-    new URL(ensureProtocol(url));
-    return true;
+    const parsedUrl = new URL(ensureProtocol(url));
+    const hostname = parsedUrl.hostname;
+
+    // 허용할 도메인 끝 목록
+    const validTlds = [".com", ".net", ".org", ".co.kr", ".kr", ".io", ".dev"];
+    return validTlds.some((tld) => hostname.endsWith(tld));
   } catch {
     return false;
   }
