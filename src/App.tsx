@@ -77,6 +77,7 @@ function App() {
                 }
               />
             </Route>
+            <Route path="*" element={<Home />} />
           </Routes>
         </Suspense>
         <ToastContainer position="top-center" autoClose={2000} />
