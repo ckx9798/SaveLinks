@@ -3,6 +3,7 @@ import { getLinks, getLinksById } from "../api/links";
 
 import AddFolderModal from "../components/Modal/AddFolderModal";
 import ChageFolderNameImage from "../components/Folder/ChageFolderNameImage";
+import Cookies from "js-cookie";
 import DeleteFolderImage from "../components/Folder/DeleteFolderImage";
 import { Folder } from "../type/folder";
 import LinkItem from "../components/LinkItem";
@@ -18,16 +19,21 @@ export default function Links() {
   const [isAddFolderOpen, setIsAddFolderOpen] = useState<boolean>(false); // 폴더 추가 모달 상태
   const [searchLink, setSearchLink] = useState<string>(""); // 검색어 상태
 
+  const token = Cookies.get("accessToken");
+  const queryEnabled = !!token;
+
   // 링크 리스트 가져오기 API 요청
   const { data: linksData } = useQuery<LinkResponse>({
     queryKey: ["links"],
     queryFn: getLinks,
+    enabled: queryEnabled,
   });
 
   // 폴더 리스트 가져오기 API 요청
   const { data: folderData } = useQuery<Folder[]>({
     queryKey: ["folders"],
     queryFn: getFolder,
+    enabled: queryEnabled,
   });
   const folderList = folderData || [];
 
@@ -67,7 +73,7 @@ export default function Links() {
   );
 
   return (
-    <div className="bg-gray04 pb-20">
+    <div className="h-auto min-h-screen bg-gray04 pb-20">
       <div className="mx-3 flex flex-col items-center justify-center pt-10 md:mx-6">
         {/* 링크 검색 */}
         <SearchLinkPart setSearchLink={setSearchLink} />

@@ -20,3 +20,7 @@ export interface AddFolderModalProps {
 export interface AddLinkProps {
   folderList: Folder[];
 }
+
+export interface ErrorResponse {
+  message: string;
+}

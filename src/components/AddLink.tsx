@@ -1,18 +1,31 @@
 import { Suspense, lazy } from "react";
 
 import Button from "./Button";
+import Cookies from "js-cookie";
 import { getFolder } from "../api/folder";
+import isValidUrl from "../utils/isValidUrl";
+import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function AddLink() {
-  const { data: folderData } = useQuery({ queryKey: ["folders"], queryFn: getFolder });
+  const token = Cookies.get("accessToken");
+  const queryEnabled = !!token;
+
+  const { data: folderData } = useQuery({ queryKey: ["folders"], queryFn: getFolder, enabled: queryEnabled });
+
   const folderList = folderData || [];
 
   const [newLink, setNewLink] = useState("");
   const [isModal, setIsModal] = useState(false);
-
+  console.log(newLink);
   const handleModalOpen = () => {
+    if (!isValidUrl(newLink)) {
+      toast.warn("유효한 링크 형식을 입력해주세요", {
+        toastId: "invalid-link-warning",
+      });
+      return;
+    }
     setIsModal(true);
   };
 
