@@ -27,7 +27,12 @@ export default function Memos() {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center justify-center bg-[url(links_bg.png)] bg-cover px-3">
+      <div className="relative flex w-full flex-col items-center justify-center px-6">
+        <img
+          src="/layout_bg.webp"
+          alt="배경 이미지"
+          className="absolute left-0 top-0 -z-10 h-full w-full object-cover"
+        />
         <Header />
         <div className="mb-8 flex h-[80px] w-full items-center justify-center md:h-[120px]">
           <AddMemo memos={memos} setMemos={setMemos} />
@@ -36,7 +41,7 @@ export default function Memos() {
 
       <div className="h-full min-h-[100vh] bg-gray04 py-4">
         {memos.length !== 0 ? (
-          <div className="align-items-center mx-auto mb-6 grid w-full max-w-[1200px] grid-cols-2 justify-items-center gap-x-2 px-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-4">
+          <div className="align-items-center mx-auto mb-6 grid w-full max-w-[1200px] grid-cols-1 justify-items-center gap-x-2 gap-y-2 px-6 sm:grid-cols-2 md:gap-4 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-4">
             {memos.map((memo) => (
               <MemoItem
                 key={memo.id}
