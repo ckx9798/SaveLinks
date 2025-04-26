@@ -29,7 +29,3 @@ export interface LinkDropdownProps {
   setIsEditModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-export interface UserFavoriteLinksProps {
-  onClick: () => void;
-}
