@@ -6,6 +6,7 @@ import CommonInput from "../components/CommonInput";
 import { LoginFormInputs } from "../type/login";
 import { postLogin } from "../api/login";
 import schema from "../zod/LoginZod";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,11 +32,37 @@ export default function Login() {
       .catch((error) => console.error(error));
   };
 
+  const handleTestLogin = async () => {
+    const testEmail = "test011@naver.com";
+    const testPassword = "asd123!!";
+
+    // setValue("email", testData.email);
+    // setValue("password", testData.password);
+
+    try {
+      await postLogin(testEmail, testPassword);
+      toast.success("테스트 계정 로그인 성공");
+      // 로그인 성공하면 원하는 페이지로 이동!
+      navigate("/links");
+    } catch (error) {
+      console.error("테스트 계정 로그인 실패:", error);
+    }
+  };
+
   return (
-    <div className="flex h-screen flex-col items-center justify-center bg-[url(login_bg.png)] bg-cover px-6 md:px-4">
-      <div className="flex flex-col items-center justify-center">
-        <img src="/saveLinks_logo.png" width={400} alt="Logo" />
-        <button className="-mt-16 text-lg text-gray01" onClick={() => navigate("/signup")}>
+    <div className="relative flex h-screen flex-col items-center justify-center overflow-hidden px-6 md:px-4">
+      {/* 배경 이미지 */}
+      <img
+        src="/login_bg.webp"
+        alt="Login background"
+        className="absolute left-0 top-0 -z-20 h-full w-full animate-fadeIn object-cover opacity-0"
+      />
+
+      {/* 로그인 폼 영역 */}
+      <div className="z-10 flex flex-col items-center justify-center">
+        <img src="/saveLinks_logo.webp" width={300} alt="Logo" className="mb-8" />
+
+        <button className="-mt-20 text-lg text-gray01" onClick={() => navigate("/signup")}>
           Signup
         </button>
       </div>
@@ -45,7 +72,7 @@ export default function Login() {
         {errors.email && <p className="mb-3 text-red-500">{errors.email.message}</p>}
 
         {/* 비밀번호 입력 */}
-        <div className="relative mb-6">
+        <div className="relative">
           <CommonInput
             register={register}
             name="password"
@@ -62,9 +89,18 @@ export default function Login() {
           </button>
         </div>
         {errors.password && <p className="mb-3 text-red-500">{errors.password.message}</p>}
-
-        <Button size="response" text="로그인" />
+        <span className="mt-4 flex flex-col gap-7">
+          <Button size="response" text="로그인" />
+        </span>
       </form>
+      <span className="mt-8 w-full max-w-[400px]">
+        <Button
+          size="response"
+          color="bg-gradient-to-r from-rose-400 to-red-700"
+          text="테스트계정으로 로그인"
+          onClick={handleTestLogin}
+        />
+      </span>
     </div>
   );
 }
