@@ -17,6 +17,15 @@ export default {
         gray05: "#F0F6FF",
         gray06: "#666666",
       },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+      },
+      animation: {
+        fadeIn: "fadeIn 1.2s ease-out forwards",
+      },
     },
   },
   plugins: [],
