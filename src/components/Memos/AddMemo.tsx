@@ -27,14 +27,14 @@ export default function AddMemo({ memos, setMemos }: AddMemosProps) {
         className="flex max-h-[120px] w-full max-w-[800px] items-center justify-between rounded-xl border border-primary bg-white px-3 py-2 md:px-5 md:py-2"
         onClick={handleAddMemo}
       >
-        <div className="flex w-full gap-5">
+        <div className="flex w-full gap-1 md:gap-5">
           <img src="/link.svg" />
           <input
             type="text"
             value={memoTitle}
             onChange={(e) => setMemoTitle(e.target.value)}
             placeholder="Add Your New Memo"
-            className="mr-5 w-full bg-inherit px-2 text-2xl focus:outline-none md:py-2"
+            className="mr-5 w-full bg-inherit px-2 text-lg focus:outline-none md:py-2 md:text-xl lg:text-2xl"
           />
         </div>
         <Button size="xs" text="Add" />
