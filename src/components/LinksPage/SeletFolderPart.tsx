@@ -12,12 +12,13 @@ export default function SeletFolderPart({ folderList, handleFolderClick, setIsAd
           <Folder folderName={folder.name} key={folder.id} onClick={() => handleFolderClick(folder.id, folder.name)} />
         ))}
       </div>
-      <img
-        src="/addFolderText.svg"
-        width={90}
-        className="hidden cursor-pointer md:block"
+      <button
+        className="flex items-center rounded-md bg-gray01 px-4 md:rounded-full md:text-2xl"
         onClick={() => setIsAddFolderOpen((prev) => !prev)}
-      />
+      >
+        <span className="text-3xl">+</span>
+        <span className="ml-2 hidden md:block">Add Folder</span>
+      </button>
     </div>
   );
 }

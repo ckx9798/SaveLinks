@@ -32,3 +32,7 @@ export interface SearchLinkPartProps {
 export interface LinkItemProps {
   link: Link;
 }
+
+export interface ErrorResponse {
+  message: string;
+}
