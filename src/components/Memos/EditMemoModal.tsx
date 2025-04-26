@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
+
 import Button from "../Button";
 import { EditMemoModalProps } from "../../type/memo";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import { useState } from "react";
 
 export default function EditMemoModal({
   setIsEditMemoModalOpen,
@@ -40,6 +41,21 @@ export default function EditMemoModal({
     setIsEditMemoModalOpen(false);
   };
 
+  // ESC 모달 닫기
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleEditMemoModalClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
@@ -47,19 +63,19 @@ export default function EditMemoModal({
     >
       {/* 모달 컨테이너 */}
       <div
-        className="relative flex h-auto min-h-[260px] w-[450px] flex-col items-center rounded-3xl bg-white p-8 shadow-lg"
+        className="relative flex h-auto min-h-[260px] w-[90%] max-w-[450px] flex-col items-center rounded-3xl bg-white p-4 shadow-lg sm:p-8 md:mx-0"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 닫기 버튼 */}
         <IoCloseCircleOutline
-          className="absolute right-2 top-2 cursor-pointer text-3xl text-gray-400 hover:text-gray-600"
+          className="absolute right-3 top-2 cursor-pointer text-lg text-gray-400 hover:text-gray-600 md:text-2xl"
           onClick={handleEditMemoModalClose}
         />
 
         {/* 제목 입력 */}
         <input
           type="text"
-          className="mb-3 w-full rounded-md border border-gray-300 p-2 text-2xl font-bold focus:border-blue-500 focus:outline-none"
+          className="mb-3 mt-4 w-full rounded-md border border-gray-300 p-2 text-2xl font-bold focus:border-blue-500 focus:outline-none md:mt-2"
           placeholder="제목을 입력하세요..."
           value={updatedTitle}
           onChange={(e) => setUpdatedTitle(e.target.value)}
