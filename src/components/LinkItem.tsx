@@ -96,7 +96,7 @@ export default function LinkItem({ link }: LinkItemProps) {
         target="_blank"
         className="overflow-hidden rounded-xl border-gray04 border-transparent bg-gray01 transition-all hover:scale-[1.02] hover:border-2 hover:border-primary"
       >
-        <div className="xl: relative h-[260px] w-[300px] overflow-hidden shadow-xl md:h-[440px] md:w-[360px] lg:w-[340px] xl:w-[380px]">
+        <div className="relative h-[260px] w-[270px] overflow-hidden shadow-xl hover:scale-105 sm:w-[280px] md:h-[440px] md:w-[380px] lg:w-[360px]">
           {/* 즐겨찾기 아이콘 */}
           <TiStarFullOutline
             className={`absolute right-1 top-1 text-3xl ${eachLink.favorite ? "text-yellow-300" : "text-slate-400"}`}

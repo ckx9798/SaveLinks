@@ -36,9 +36,6 @@ export default function Login() {
     const testEmail = "test011@naver.com";
     const testPassword = "asd123!!";
 
-    // setValue("email", testData.email);
-    // setValue("password", testData.password);
-
     try {
       await postLogin(testEmail, testPassword);
       toast.success("테스트 계정 로그인 성공");
@@ -94,12 +91,7 @@ export default function Login() {
         </span>
       </form>
       <span className="mt-8 w-full max-w-[400px]">
-        <Button
-          size="response"
-          color="bg-gradient-to-r from-rose-400 to-red-700"
-          text="테스트계정으로 로그인"
-          onClick={handleTestLogin}
-        />
+        <Button size="response" color="gradientRed" text="테스트계정으로 로그인" onClick={handleTestLogin} />
       </span>
     </div>
   );
