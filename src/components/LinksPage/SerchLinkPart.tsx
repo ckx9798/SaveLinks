@@ -1,4 +1,3 @@
-import React from "react";
 import { SearchLinkPartProps } from "../../type/link";
 
 export default function SearchLinkPart({ setSearchLink }: SearchLinkPartProps) {

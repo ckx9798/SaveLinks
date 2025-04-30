@@ -8,6 +8,7 @@ import { postSignUp } from "../api/login";
 import schema from "../zod/SingUpZod";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function SignUp() {
@@ -15,8 +16,9 @@ export default function SignUp() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignUpFormInputs>({
+  } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
+    mode: "onChange",
   });
 
   const navigate = useNavigate();
@@ -33,10 +35,19 @@ export default function SignUp() {
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center bg-[url(login_bg.png)] bg-cover px-6 md:px-4">
-      <div className="flex flex-col items-center justify-center">
-        <img src="/saveLinks_logo.png" width={400} alt="Logo" />
-        <button className="-mt-16 text-lg text-gray01" onClick={() => navigate("/login")}>
+    <div className="relative flex h-screen flex-col items-center justify-center overflow-hidden px-6 md:px-4">
+      {/* 배경 이미지 */}
+      <img
+        src="/login_bg.webp"
+        alt="Login background"
+        className="animate-fadeIn absolute left-0 top-0 -z-20 h-full w-full object-cover opacity-0"
+      />
+
+      {/* 로그인 폼 영역 */}
+      <div className="z-10 flex flex-col items-center justify-center">
+        <img src="/saveLinks_logo.webp" width={300} alt="Logo" className="mb-8" />
+
+        <button className="-mt-20 text-lg text-gray01" onClick={() => navigate("/login")}>
           Login
         </button>
       </div>
@@ -69,7 +80,7 @@ export default function SignUp() {
         {errors.password && <p className="mb-3 text-red-500">{errors.password.message}</p>}
 
         {/* 비밀번호 확인 입력 */}
-        <div className="relative mb-6">
+        <div className="relative">
           <CommonInput
             register={register}
             name="confirmPassword"
@@ -87,8 +98,9 @@ export default function SignUp() {
         </div>
         {errors.confirmPassword && <p className="mb-3 text-red-500">{errors.confirmPassword.message}</p>}
 
-        {/* 회원가입 버튼 */}
-        <Button size="response" text="회원가입" />
+        <span className="mt-4">
+          <Button size="response" text="회원가입" />
+        </span>
       </form>
     </div>
   );

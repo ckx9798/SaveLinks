@@ -16,6 +16,22 @@ export default {
         gray04: "#2C2C2C",
         gray05: "#F0F6FF",
         gray06: "#666666",
+        gradientRed: "bg-gradient-to-r from-pink-300 to-red-400",
+        gradientBlue: "bg-gradient-to-r from-primary to-secondary",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        dropdown: {
+          "0%": { opacity: "0", transform: "translateY(0.5rem)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        fadeIn: "fadeIn 1.2s ease-out forwards",
+        dropdown: "dropdown 0.3s ease-out forwards",
       },
     },
   },

@@ -22,7 +22,8 @@ export interface LinksByIdResponse {
 export interface SeletFolderPartProps {
   folderList: Folder[];
   handleFolderClick: (id: number, name: string) => void;
-  setIsAddFolderOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsAddFolderModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoading: boolean;
 }
 
 export interface SearchLinkPartProps {

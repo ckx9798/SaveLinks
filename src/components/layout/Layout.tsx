@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 export default function Layout() {
   return (
     <>
-      <div className="relative flex w-full flex-col items-center justify-center px-3">
+      <div className="relative flex w-full flex-col items-center justify-center px-6">
         <img
           src="/layout_bg.webp"
           alt="배경 이미지"

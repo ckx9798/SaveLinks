@@ -92,12 +92,7 @@ export default function EditMemoModal({
         {/* 수정 버튼 */}
         <div className="mt-5 flex w-full justify-end gap-2">
           <Button size="md" text="수정하기" onClick={handleEditMemo} />
-          <Button
-            size="md"
-            text="삭제하기"
-            onClick={handleDeleteMemo}
-            color="bg-gradient-to-r from-pink-300 to-red-400"
-          />
+          <Button size="md" text="삭제하기" onClick={handleDeleteMemo} color="gradientRed" />
         </div>
       </div>
     </div>

@@ -5,16 +5,9 @@ export interface Folder {
   linkCount: number;
 }
 
-export interface EditFolderNameImageProps {
-  currentFolder: Folder;
-}
 export interface EditFolderNameModalProps {
   setIsModalOpen: (isOpen: boolean) => void;
   currentFolder: Folder;
-}
-
-export interface AddFolderModalProps {
-  setIsAddFolderOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface AddLinkProps {

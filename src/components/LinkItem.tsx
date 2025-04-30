@@ -1,39 +1,22 @@
+import { DeleteLinkUrl, EditLinkUrl, putFavorite } from "../api/links";
+import { isValidImage, normalizeUrl } from "../utils/urlUtils";
+
 import ChangeDate from "../utils/ChangeDate";
-import LinkDeleteDropdownModal from "./Modal/LinkDeleteDropdownModal";
-import LinkEditDropdownModal from "./Modal/LinkEditDropdownModal";
+import CommonModal from "./Modal/CommonModal";
 import { LinkItemProps } from "../type/link";
 import LinksDropdown from "./LinkDropdown";
 import { TiStarFullOutline } from "react-icons/ti";
-import { putFavorite } from "../api/links";
+import isValidUrl from "../utils/isValidUrl";
+import { toast } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function LinkItem({ link }: LinkItemProps) {
-  // 응답 이미지 처리
-  const isValidImage = (src: string | undefined) => {
-    if (!src) return false; // 값이 없으면 false
-
-    // 백엔드에서 오는 잘못된 값 예외처리
-    if (src.startsWith("/meta") || src === "/link.svg") return false;
-
-    // 올바른 URL인지 확인 (http:// or https:// 로 시작)
-    const isValidURL = /^(https?:\/\/)/.test(src);
-
-    // 이미지 확장자 검증
-    const isImageFile = /\.(jpeg|jpg|gif|png|webp|svg)$/i.test(src);
-
-    return isValidURL && isImageFile;
-  };
-
   const linkSource = isValidImage(link.imageSource) ? link.imageSource : "/link.svg"; // 기본 이미지 설정
   const linkSourceClass =
     linkSource === "/link.svg"
       ? "h-[130px] md:h-3/5 w-full p-6 md:p-12 lg:p-14"
       : "h-[130px] md:h-3/5 w-full object-cover";
-
-  // url 로직 통일
-  const nomalizeUrl = (url: string) => {
-    return url.startsWith("http://") || url.startsWith("https://") ? url : `https://${url}`;
-  };
 
   const [eachLink, setEachLink] = useState(link);
 
@@ -62,10 +45,58 @@ export default function LinkItem({ link }: LinkItemProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
+  // 링크 수정 로직
+  const [newLink, setNewLink] = useState<string>("");
+  const handleEditModalClose = (): void => {
+    setIsEditModalOpen((prev) => !prev);
+  };
+  const queryClient = useQueryClient();
+  const sendEditLinkRequest = async (): Promise<void> => {
+    if (!isValidUrl(newLink)) {
+      toast.error("URL 형식이 올바르지 않습니다");
+      return;
+    }
+
+    try {
+      await EditLinkUrl(link.id, newLink);
+      await queryClient.invalidateQueries({ queryKey: ["links"] }); // "links" 쿼리 무효화
+
+      setEachLink((prevLink) => ({
+        ...prevLink,
+        url: newLink, // URL은 바꿔야 하고
+        title: newLink, // ⭐ title도 바꿔야 함
+      }));
+
+      setNewLink("");
+      setIsEditModalOpen(false);
+      setIsDropdownOpen(false);
+    } catch (error) {
+      console.error("폴더명 수정 중 오류", error);
+    }
+  };
+
+  // 링크 삭제 로직
+  const handleDeleteModalClose = (): void => {
+    setIsDeleteModalOpen(false);
+  };
+  const sendDeleteRequest = async (): Promise<void> => {
+    try {
+      await DeleteLinkUrl(link.id);
+      await queryClient.invalidateQueries({ queryKey: ["links"] }); // "links" 쿼리 무효화
+      setIsDeleteModalOpen(false);
+    } catch (error) {
+      console.error("링크 삭제 중 오류", error);
+    }
+  };
+
   return (
     <>
-      <a href={nomalizeUrl(link.url)} target="_blank" className="overflow-hidden rounded-xl bg-gray01">
-        <div className="relative h-[260px] w-[300px] overflow-hidden shadow-xl hover:scale-105 sm:w-[300px] md:h-[440px] md:w-[380px] lg:w-[360px]">
+      <a
+        href={normalizeUrl(link.url)}
+        target="_blank"
+        className="overflow-hidden rounded-xl border-gray04 border-transparent bg-gray01 transition-all hover:scale-[1.02] hover:border-2 hover:border-primary"
+      >
+        <div className="relative h-[260px] w-[270px] overflow-hidden shadow-xl hover:scale-105 sm:w-[280px] md:h-[440px] md:w-[380px] lg:w-[360px]">
           {/* 즐겨찾기 아이콘 */}
           <TiStarFullOutline
             className={`absolute right-1 top-1 text-3xl ${eachLink.favorite ? "text-yellow-300" : "text-slate-400"}`}
@@ -82,7 +113,7 @@ export default function LinkItem({ link }: LinkItemProps) {
               <p className="my-1 line-clamp-1 font-semibold text-blue-300 md:text-2xl">{eachLink.title}</p>
 
               {/* 케밥 메뉴 아이콘 */}
-              <img src="/kebab.svg" onClick={handleDropdownClick} className="mx-4 cursor-pointer" />
+              <img src="/kebab.svg" onClick={handleDropdownClick} className="mx-4 w-4 cursor-pointer md:w-8" />
 
               {/* 드롭다운 메뉴 */}
               {isDropdownOpen && (
@@ -104,8 +135,27 @@ export default function LinkItem({ link }: LinkItemProps) {
           </div>
         </div>
       </a>
-      {isEditModalOpen && <LinkEditDropdownModal setIsEditModalOpen={setIsEditModalOpen} linkId={link.id} />}
-      {isDeleteModalOpen && <LinkDeleteDropdownModal setIsDeleteModalOpen={setIsDeleteModalOpen} linkId={link.id} />}
+      {isEditModalOpen && (
+        <CommonModal
+          title="Edit Link"
+          inputPlaceholder="write New Link URL"
+          buttonText="Edit"
+          onClose={handleEditModalClose}
+          onSubmit={sendEditLinkRequest}
+          inputValue={newLink}
+          setInputValue={setNewLink}
+        />
+      )}
+      {isDeleteModalOpen && (
+        <CommonModal
+          title="Delete this Link?"
+          buttonText="Delete"
+          onClose={handleDeleteModalClose}
+          onSubmit={sendDeleteRequest}
+          showInput={false}
+          buttonColor="gradientRed"
+        />
+      )}
     </>
   );
 }

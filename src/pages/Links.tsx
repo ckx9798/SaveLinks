@@ -1,8 +1,10 @@
 import { LinkResponse, LinksByIdResponse } from "../type/link";
+import { getFolder, postFolder } from "../api/folder";
 import { getLinks, getLinksById } from "../api/links";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import AddFolderModal from "../components/Modal/AddFolderModal";
 import ChageFolderNameImage from "../components/Folder/ChageFolderNameImage";
+import CommonModal from "../components/Modal/CommonModal";
 import Cookies from "js-cookie";
 import DeleteFolderImage from "../components/Folder/DeleteFolderImage";
 import { Folder } from "../type/folder";
@@ -10,14 +12,13 @@ import LinkItem from "../components/LinkItem";
 import NoLinks from "../components/NoLinks";
 import SearchLinkPart from "../components/LinksPage/SerchLinkPart";
 import SeletFolderPart from "../components/LinksPage/SeletFolderPart";
-import { getFolder } from "../api/folder";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function Links() {
   const [currentFolder, setCurrentFolder] = useState<Folder | null>(null); // 현재 선택된 폴더
-  const [isAddFolderOpen, setIsAddFolderOpen] = useState<boolean>(false); // 폴더 추가 모달 상태
   const [searchLink, setSearchLink] = useState<string>(""); // 검색어 상태
+  const [isAddFolderModalOpen, setIsAddFolderModalOpen] = useState<boolean>(false); // 폴더 추가 모달 상태
+  const [newFolderName, setNewFolderName] = useState(""); // 폴더추가 상태
 
   const token = Cookies.get("accessToken");
   const queryEnabled = !!token;
@@ -30,7 +31,7 @@ export default function Links() {
   });
 
   // 폴더 리스트 가져오기 API 요청
-  const { data: folderData } = useQuery<Folder[]>({
+  const { data: folderData, isLoading: isFolderLoading } = useQuery<Folder[]>({
     queryKey: ["folders"],
     queryFn: getFolder,
     enabled: queryEnabled,
@@ -49,6 +50,7 @@ export default function Links() {
     enabled: !!currentFolder,
   });
 
+  // 폴더 클릭 로직
   const handleFolderClick = (folderId: number, folderName: string) => {
     if (folderId === 0) {
       setCurrentFolder(null);
@@ -62,25 +64,33 @@ export default function Links() {
     }
   };
 
-  // 폴더 클릭 여부에 따라 리스트 결정
+  // 폴더 필터링 로직
   const linkList = currentFolder ? folderLinksData?.list || [] : linksData?.list || [];
-
-  // 검색 필터링된 링크 리스트
   const filteredLinks = linkList.filter(
     (link) =>
       link.title.toLowerCase().includes(searchLink.toLowerCase()) ||
       link.url.toLowerCase().includes(searchLink.toLowerCase())
   );
 
+  // 폴더 추가 로직
+  const queryClient = useQueryClient();
+  const handleAddFolderModalClose = () => setIsAddFolderModalOpen(false);
+  const handlePostNewFolder = async () => {
+    await postFolder(newFolderName); // 새로운 폴더 추가
+    await queryClient.invalidateQueries({ queryKey: ["folders"] }); // "folders" 쿼리 무효화
+    setIsAddFolderModalOpen(false);
+  };
+
   return (
-    <div className="h-auto min-h-screen bg-gray04 pb-20">
-      <div className="mx-3 flex flex-col items-center justify-center pt-10 md:mx-6">
+    <div className="h-auto min-h-screen bg-gray04 px-6 pb-2">
+      <div className="flex flex-col items-center justify-center pt-10 md:mx-6">
         {/* 링크 검색 */}
         <SearchLinkPart setSearchLink={setSearchLink} />
         <SeletFolderPart
           folderList={folderList}
           handleFolderClick={handleFolderClick}
-          setIsAddFolderOpen={setIsAddFolderOpen}
+          setIsAddFolderModalOpen={setIsAddFolderModalOpen}
+          isLoading={isFolderLoading}
         />
 
         {currentFolder && (
@@ -88,7 +98,7 @@ export default function Links() {
             <div className="ml-1 text-3xl font-semibold text-gray02 lg:text-4xl">{currentFolder.name}</div>
             <div className="flex gap-4">
               <ChageFolderNameImage currentFolder={currentFolder} />
-              <DeleteFolderImage currentFolder={currentFolder} />
+              <DeleteFolderImage currentFolder={currentFolder} setCurrentFolder={setCurrentFolder} />
             </div>
           </div>
         )}
@@ -96,7 +106,7 @@ export default function Links() {
 
       {/* 링크 목록 */}
       {(searchLink ? filteredLinks : linkList).length !== 0 ? (
-        <div className="align-items-center mx-auto mb-10 grid w-full max-w-[1200px] grid-cols-1 justify-items-center gap-4 pt-4 sm:grid-cols-2 md:gap-y-8 lg:grid-cols-3 lg:gap-x-10">
+        <div className="align-items-center mx-auto mb-10 grid w-full max-w-[1200px] grid-cols-1 justify-items-center gap-4 px-4 pt-4 sm:grid-cols-2 md:gap-y-8 lg:grid-cols-3 lg:gap-x-10 xl:px-0">
           {(searchLink ? filteredLinks : linkList).map((link) => (
             <LinkItem key={link.id} link={link} />
           ))}
@@ -105,7 +115,17 @@ export default function Links() {
         <NoLinks />
       )}
 
-      {isAddFolderOpen && <AddFolderModal setIsAddFolderOpen={setIsAddFolderOpen} />}
+      {isAddFolderModalOpen && (
+        <CommonModal
+          title="FolderName"
+          inputPlaceholder="Please Enter folder name"
+          buttonText="Add"
+          onClose={handleAddFolderModalClose}
+          onSubmit={handlePostNewFolder}
+          inputValue={newFolderName}
+          setInputValue={setNewFolderName}
+        />
+      )}
     </div>
   );
 }
