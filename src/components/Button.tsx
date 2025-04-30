@@ -10,11 +10,16 @@ const sizeClass = {
   response: "w-full max-w-[400px] h-[53px]",
 };
 
-export default function Button({ size, color, text, ...props }: ButtonProps) {
-  const dynamicColorClass = color || "bg-gradient-to-r from-primary to-secondary";
+const colorClass = {
+  primary: "bg-primary",
+  secondary: "bg-secondary",
+  gradientRed: "bg-gradient-to-r from-pink-400 to-red-500",
+  gradientBlue: "bg-gradient-to-r from-primary to-secondary",
+};
 
+export default function Button({ size, color = "gradientBlue", text, ...props }: ButtonProps) {
   return (
-    <button {...props} className={`${baseClass} ${sizeClass[size]} ${dynamicColorClass}`}>
+    <button {...props} className={`${baseClass} ${sizeClass[size]} ${colorClass[color]}`}>
       {text}
     </button>
   );
