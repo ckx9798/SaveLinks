@@ -1,5 +1,6 @@
 import { Suspense, lazy } from "react";
 
+import UserFavoriteLinks from "./UserFavoriteLinks";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -9,6 +10,7 @@ export default function Header() {
 
   const moveToLinks = () => navigate("/links");
   const moveToMemos = () => navigate("/memos");
+  const moveToFavorite = () => navigate("/favorite");
   const handleLogout = () => {
     document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     navigate("/login");
@@ -26,20 +28,23 @@ export default function Header() {
         loading="eager"
         fetchPriority="high"
       />
-      <div className="relative flex items-center">
-        <div className="cursor-pointer rounded-full bg-gray01 p-1">
-          <img src="/user_circle.svg" alt="" width={24} onClick={() => setIsMenuOpen(!isMenuOpen)} />
+      <div className="flex gap-2 md:gap-4">
+        <UserFavoriteLinks onClick={moveToFavorite} />
+        <div className="relative flex items-center">
+          <div className="cursor-pointer rounded-full bg-gray01 p-1">
+            <img src="/user_circle.svg" alt="" width={24} onClick={() => setIsMenuOpen(!isMenuOpen)} />
+          </div>
+          {isMenuOpen && (
+            <Suspense>
+              <UserDropdown
+                onClose={() => setIsMenuOpen(false)}
+                onLinkClick={moveToLinks}
+                onMemoClick={moveToMemos}
+                onLogoutClick={handleLogout}
+              />
+            </Suspense>
+          )}
         </div>
-        {isMenuOpen && (
-          <Suspense>
-            <UserDropdown
-              onClose={() => setIsMenuOpen(false)}
-              onLinkClick={moveToLinks}
-              onMemoClick={moveToMemos}
-              onLogoutClick={handleLogout}
-            />
-          </Suspense>
-        )}
       </div>
     </div>
   );
