@@ -1,5 +1,12 @@
 import { DeleteLinkUrl, EditLinkUrl, putFavorite } from "../api/links";
-import { isValidImage, normalizeUrl } from "../utils/urlUtils";
+import {
+  extractInstagramId,
+  isInstagramReel,
+  isValidImage,
+  isYoutube,
+  normalizeUrl,
+  normalizeYoutubeUrl,
+} from "../utils/urlUtils";
 
 import ChangeDate from "../utils/ChangeDate";
 import CommonModal from "./Modal/CommonModal";
@@ -63,8 +70,8 @@ export default function LinkItem({ link }: LinkItemProps) {
 
       setEachLink((prevLink) => ({
         ...prevLink,
-        url: newLink, // URL은 바꿔야 하고
-        title: newLink, // ⭐ title도 바꿔야 함
+        url: newLink,
+        title: newLink,
       }));
 
       setNewLink("");
@@ -89,6 +96,14 @@ export default function LinkItem({ link }: LinkItemProps) {
     }
   };
 
+  function normalizeInstagramUrl(url: string): string {
+    const isReel = /instagram\.com\/reel\/[^/?]+\/?$/.test(url);
+    if (isReel && !url.includes("utm_source")) {
+      return url.endsWith("/") ? `${url}?utm_source=ig_web_copy_link` : `${url}/?utm_source=ig_web_copy_link`;
+    }
+    return url;
+  }
+
   return (
     <>
       <a
@@ -96,15 +111,33 @@ export default function LinkItem({ link }: LinkItemProps) {
         target="_blank"
         className="overflow-hidden rounded-xl border-gray04 border-transparent bg-gray01 transition-all hover:scale-[1.02] hover:border-2 hover:border-primary"
       >
-        <div className="relative h-[260px] w-[270px] overflow-hidden shadow-xl hover:scale-105 sm:w-[280px] md:h-[440px] md:w-[380px] lg:w-[360px]">
+        <div className="relative h-[260px] w-[160px] overflow-hidden shadow-xl hover:scale-105 sm:w-[280px] md:h-[440px] md:w-[380px] lg:h-[700px] lg:w-[360px]">
           {/* 즐겨찾기 아이콘 */}
           <TiStarFullOutline
             className={`absolute right-1 top-1 text-3xl ${eachLink.favorite ? "text-yellow-300" : "text-slate-400"}`}
             onClick={handleFavoriteClick}
           />
 
-          {/* 이미지 */}
-          <img src={linkSource} className={linkSourceClass} />
+          {/* 이미지 or Instagram Reels iframe or fallback */}
+          {isInstagramReel(link.url) ? (
+            <iframe
+              src={`https://www.instagram.com/reel/${extractInstagramId(normalizeInstagramUrl(link.url))}/embed`}
+              className="h-full w-full object-cover"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            />
+          ) : isYoutube(link.url) ? (
+            <iframe
+              src={normalizeYoutubeUrl(link.url)}
+              className="h-full w-full object-cover"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            />
+          ) : isValidImage(link.imageSource) ? (
+            <img src={link.imageSource} className={linkSourceClass} />
+          ) : (
+            <img src="/link.svg" className={linkSourceClass} />
+          )}
 
           {/* 내용 영역 */}
           <div className="flex flex-col px-4 py-2">
