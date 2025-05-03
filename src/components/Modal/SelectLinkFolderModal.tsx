@@ -1,3 +1,5 @@
+import { normalizeInstagramUrl, normalizeYoutubeUrl } from "../../utils/urlUtils";
+
 import Button from "../Button";
 import { CiBookmarkCheck } from "react-icons/ci";
 import { IoCloseCircleOutline } from "react-icons/io5";
@@ -13,8 +15,16 @@ export default function SelectLinkFolderModal({ setIsModal, folderList, newLink 
 
   const handlePostNewLink = async () => {
     if (selectFolder !== null) {
-      await postLinks(newLink, selectFolder);
-      await queryClient.invalidateQueries({ queryKey: ["links"] }); // "links" 쿼리 무효화
+      let cleanedLink = newLink.trim();
+
+      if (cleanedLink.includes("youtube.com") || cleanedLink.includes("youtu.be")) {
+        cleanedLink = normalizeYoutubeUrl(cleanedLink);
+      } else if (cleanedLink.includes("instagram.com")) {
+        cleanedLink = normalizeInstagramUrl(cleanedLink);
+      }
+
+      await postLinks(cleanedLink, selectFolder);
+      await queryClient.invalidateQueries({ queryKey: ["links"] });
       setIsModal(false);
     }
   };
