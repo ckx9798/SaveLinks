@@ -1,11 +1,21 @@
-import { AddShortsProps, addShortsLink } from "../../api/shorts";
 import { normalizeInstagramUrl, normalizeYoutubeUrl } from "../../utils/urlUtils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import Button from "../Button";
+import { addShortsLink } from "../../api/shorts";
 import { useState } from "react";
 
-export default function AddShorts({ shortsLinks, setShortsLinks }: AddShortsProps) {
+export default function AddShorts() {
   const [newShortsLink, setNewShortsLink] = useState("");
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: addShortsLink,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["shorts"] });
+      setNewShortsLink("");
+    },
+  });
 
   const handlePostNewLink = async () => {
     let cleanedLink = newShortsLink.trim();
@@ -15,10 +25,7 @@ export default function AddShorts({ shortsLinks, setShortsLinks }: AddShortsProp
     } else if (cleanedLink.includes("instagram.com")) {
       cleanedLink = normalizeInstagramUrl(cleanedLink);
     }
-
-    const created = await addShortsLink(cleanedLink);
-    setShortsLinks([...shortsLinks, created]);
-    setNewShortsLink("");
+    mutation.mutate(cleanedLink);
   };
 
   return (

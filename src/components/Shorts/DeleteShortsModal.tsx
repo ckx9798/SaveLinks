@@ -1,8 +1,8 @@
 import { DeleteShortsModalProps, deleteShortsLink } from "../../api/shorts";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import Button from "../Button";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import { useShortsStore } from "../../store/store";
 
 export default function DeleteShortsModal({
   shortsId,
@@ -14,13 +14,18 @@ export default function DeleteShortsModal({
     setOpenDropdownId(null);
   };
 
-  const { shortsLinks, setShortsLinks } = useShortsStore();
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteShortsLink,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["shorts"] });
+      handleCloseModal();
+    },
+  });
 
   const handleDeleteShorts = (shortsId: number) => {
-    deleteShortsLink(shortsId);
-    setShortsLinks(shortsLinks.filter((short) => short.id !== shortsId));
-    handleCloseModal();
-    setOpenDropdownId(null);
+    deleteMutation.mutate(shortsId);
   };
 
   return (

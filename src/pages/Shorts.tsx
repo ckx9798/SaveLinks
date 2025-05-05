@@ -1,21 +1,15 @@
-import { ShortsProps, deleteShortsLink, getShortsLink } from "../api/shorts";
-import { useEffect, useState } from "react";
+import { deleteShortsLink, getShortsLink } from "../api/shorts";
 
 import AddShorts from "../components/Shorts/AddShorts";
 import Header from "../components/Header";
-import ShortsDropddown from "../components/Shorts/ShortsDropdown";
+import ShortsItem from "../components/Shorts/ShortsItem";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Shorts() {
-  const [shortsLinks, setShortsLinks] = useState<ShortsProps[]>([]);
-  const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
-
-  useEffect(() => {
-    const fetchgetShortsLink = async () => {
-      const data = await getShortsLink();
-      setShortsLinks(data);
-    };
-    fetchgetShortsLink();
-  }, [setShortsLinks]);
+  const { data: shortsData = [] } = useQuery({
+    queryKey: ["shorts"],
+    queryFn: getShortsLink,
+  });
 
   return (
     <>
@@ -30,7 +24,7 @@ export default function Shorts() {
         />
         <Header />
         <div className="mb-8 flex h-[80px] w-full items-center justify-center md:h-[120px]">
-          <AddShorts shortsLinks={shortsLinks} setShortsLinks={setShortsLinks} />
+          <AddShorts />
         </div>
         <button className="text-white" onClick={() => deleteShortsLink(37)}>
           asd
@@ -39,24 +33,8 @@ export default function Shorts() {
 
       <div className="flex h-auto min-h-screen justify-center bg-gray04">
         <div className="mx-auto grid w-full max-w-[1400px] gap-10 py-6 sm:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] md:px-8 lg:px-6 xl:px-2">
-          {shortsLinks.map((link) => (
-            <div key={link.id} className="group relative aspect-[2/3] w-full">
-              <iframe
-                src={link.url.startsWith("http") ? link.url : `https://${link.url}`}
-                className="aspect-[2/3] h-auto w-full rounded-xl hover:border-2 hover:border-primary md:min-h-[635px]"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                scrolling="no"
-              />
-              <button
-                className="absolute bottom-0 right-0 z-10 hidden rounded-md px-4 py-1 text-white shadow-md group-hover:block group-hover:bg-primary"
-                onClick={() => setOpenDropdownId((prevId) => (prevId === link.id ? null : link.id))}
-              >
-                . . .
-              </button>
-
-              {openDropdownId === link.id && <ShortsDropddown link={link} setOpenDropdownId={setOpenDropdownId} />}
-            </div>
+          {shortsData.map((link) => (
+            <ShortsItem key={link.id} link={link} />
           ))}
         </div>
       </div>
