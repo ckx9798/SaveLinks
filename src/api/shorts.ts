@@ -1,29 +1,4 @@
-export interface ShortsProps {
-  id: number;
-  url: string;
-}
-
-export interface ShortsDropdownProps {
-  link: ShortsProps;
-  setOpenDropdownId: (id: number | null) => void;
-}
-
-export interface FullScreenShortsModalProps {
-  shortsUrl: string;
-  setIsModalOpen: (open: boolean) => void;
-  setOpenDropdownId: (id: number | null) => void;
-}
-
-export interface DeleteShortsModalProps {
-  shortsId: number;
-  setIsDeleteModalOpen: (open: boolean) => void;
-  setOpenDropdownId: (id: number | null) => void;
-}
-
-export interface AddShortsProps {
-  shortsLinks: ShortsProps[];
-  setShortsLinks: React.Dispatch<React.SetStateAction<ShortsProps[]>>;
-}
+import { ShortsProps } from "../type/shorts";
 
 export const addShortsLink = async (url: string) => {
   const res = await fetch(`/api/links`, {
@@ -50,5 +25,5 @@ export const deleteShortsLink = async (id: number) => {
   });
 
   const data: ShortsProps[] = await res.json();
-  console.log(data);
+  return data;
 };

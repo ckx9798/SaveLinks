@@ -1,4 +1,4 @@
-import { FullScreenShortsModalProps } from "../../api/shorts";
+import { FullScreenShortsModalProps } from "../../type/shorts";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 export default function FullScreenShortsModal({

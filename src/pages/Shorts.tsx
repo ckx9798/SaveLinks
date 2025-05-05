@@ -1,8 +1,7 @@
-import { deleteShortsLink, getShortsLink } from "../api/shorts";
-
 import AddShorts from "../components/Shorts/AddShorts";
 import Header from "../components/Header";
 import ShortsItem from "../components/Shorts/ShortsItem";
+import { getShortsLink } from "../api/shorts";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Shorts() {
@@ -26,13 +25,10 @@ export default function Shorts() {
         <div className="mb-8 flex h-[80px] w-full items-center justify-center md:h-[120px]">
           <AddShorts />
         </div>
-        <button className="text-white" onClick={() => deleteShortsLink(37)}>
-          asd
-        </button>
       </div>
 
       <div className="flex h-auto min-h-screen justify-center bg-gray04">
-        <div className="mx-auto grid w-full max-w-[1400px] gap-10 py-6 sm:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] md:px-8 lg:px-6 xl:px-2">
+        <div className="mx-auto grid w-full max-w-[1400px] gap-10 px-2 py-6 sm:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] md:px-8 lg:px-6 xl:px-0">
           {shortsData.map((link) => (
             <ShortsItem key={link.id} link={link} />
           ))}

@@ -1,8 +1,9 @@
-import { DeleteShortsModalProps, deleteShortsLink } from "../../api/shorts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import Button from "../Button";
+import { DeleteShortsModalProps } from "../../type/shorts";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { deleteShortsLink } from "../../api/shorts";
 
 export default function DeleteShortsModal({
   shortsId,
