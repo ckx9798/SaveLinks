@@ -8,6 +8,7 @@ import React, { Suspense } from "react";
 
 import PrivateRoute from "./pages/PrivateRoute";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"; // Devtools 추가
+import Shorts from "./pages/Shorts";
 import { ToastContainer } from "react-toastify";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
@@ -51,6 +52,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/shorts" element={<Shorts />} />
             <Route
               path="/memos"
               element={

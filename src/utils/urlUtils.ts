@@ -17,7 +17,7 @@ export const isInstagramReel = (url: string): boolean => {
 
 // 인스타 ID 추출
 export const extractInstagramId = (url: string): string => {
-  const match = url.match(/\/reel\/([^\/?]+)/);
+  const match = url.match(/\/reel\/([^/?]+)/);
   return match ? match[1] : "";
 };
 
@@ -29,17 +29,16 @@ export const normalizeInstagramUrl = (url: string): string => {
   if (url.includes("instagram.com/reels/")) {
     url = url.replace("instagram.com/reels/", "instagram.com/reel/");
   }
-  // 정규식
-  const isReel = /instagram\.com\/reel\/[^\/?]+/.test(url);
+  // ID 추출
+  const match = url.match(/instagram\.com\/reel\/([^/?]+)/);
+  const id = match ? match[1] : "";
 
-  // 공유버전 확인
-  const hasUtm = url.includes("utm_source");
-
-  if (isReel && !hasUtm) {
-    const normalized = url.endsWith("/") ? `${url}?utm_source=ig_web_copy_link` : `${url}/?utm_source=ig_web_copy_link`;
-    return normalized;
+  if (id) {
+    // 임베드용 URL로 변환
+    return `https://www.instagram.com/reel/${id}/embed`;
   }
 
+  // 변환 실패 시 원래 URL 반환
   return url;
 };
 
@@ -50,7 +49,7 @@ export const isYoutube = (url: string): boolean => {
 
 // 유튜브 ID 추출
 export const extractYoutubeId = (url: string): string => {
-  const match = url.match(/\/shorts\/([^\/?]+)/);
+  const match = url.match(/\/shorts\/([^/?]+)/);
   return match ? match[1] : "";
 };
 
