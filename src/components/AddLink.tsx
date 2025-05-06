@@ -18,7 +18,6 @@ export default function AddLink() {
 
   const [newLink, setNewLink] = useState("");
   const [isModal, setIsModal] = useState(false);
-  console.log(newLink);
   const handleModalOpen = () => {
     if (!isValidUrl(newLink)) {
       toast.warn("유효한 링크 형식을 입력해주세요", {
