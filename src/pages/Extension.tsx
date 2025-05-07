@@ -1,16 +1,10 @@
-import { normalizeUrl, normalizeYoutubeUrl } from "../utils/urlUtils";
-import { useEffect, useState } from "react";
-
 import AddShorts from "../components/Shorts/AddShorts";
 import ExtensionShorts from "../extension/ExtensionShorts";
 import Header from "../components/Header";
-import { normalToEmbedUrl } from "../utils/normalToEmbedUrl";
-import { useNomalizeUrls } from "../utils/useNomalizeUrls";
 import { useSavedUrls } from "../utils/useSavedUrls";
 
 export default function Extension() {
-  const savedShorts = useSavedUrls();
-  const embedShortsUrl = normalToEmbedUrl(savedShorts);
+  const { savedUrls } = useSavedUrls();
 
   return (
     <>
@@ -31,8 +25,8 @@ export default function Extension() {
 
       <div className="flex h-auto min-h-screen justify-center bg-gray04">
         <div className="mx-auto grid w-full max-w-[1400px] gap-10 px-2 py-6 sm:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] md:px-8 lg:px-6 xl:px-0">
-          {embedShortsUrl.map((link, index) => (
-            <ExtensionShorts link={link} index={index} />
+          {savedUrls.map((shortsObj) => (
+            <ExtensionShorts shortsObj={shortsObj} />
           ))}
         </div>
       </div>
