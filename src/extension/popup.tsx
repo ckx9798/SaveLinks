@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
 import ReactDOM from "react-dom/client";
+import { normalToEmbedUrlSingle } from "../utils/normalToEmbedUrl";
 
 export const Popup = () => {
   const [currentUrl, setCurrentUrl] = useState("");
-  const [savedShortsList, setSavedShortsList] = useState<string[]>([]);
   const [message, setMessage] = useState("");
 
   // 현재 탭 URL 가져오기
@@ -19,12 +19,17 @@ export const Popup = () => {
   const saveUrlToSyncStorage = () => {
     if (!currentUrl) return;
 
+    const newItem = {
+      id: crypto.randomUUID(),
+      url: currentUrl,
+      embedUrl: normalToEmbedUrlSingle(currentUrl),
+    };
+
     chrome.storage.sync.get(["savedShortsList"], (result) => {
-      const existShortsList: string[] = result.savedShortsList || [];
-      const updateShortsList = [...existShortsList, currentUrl];
+      const prevList = result.savedShortsList || [];
+      const updateShortsList = [...prevList, newItem];
 
       chrome.storage.sync.set({ savedShortsList: updateShortsList }, () => {
-        setSavedShortsList(updateShortsList);
         setMessage("✅ 저장 완료!");
       });
     });
