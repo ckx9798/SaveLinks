@@ -32,6 +32,10 @@ export const Popup = () => {
       chrome.storage.sync.set({ savedShortsList: updateShortsList }, () => {
         setMessage("✅ 저장 완료!");
       });
+
+      setTimeout(() => {
+        window.close();
+      }, 1500);
     });
   };
 
@@ -48,7 +52,7 @@ export const Popup = () => {
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            chrome.tabs.create({ url: "https://www.savelinks.xyz/shorts" });
+            chrome.tabs.create({ url: "https://www.savelinks.xyz/extension" });
           }}
           className="w-full rounded-xl bg-primary px-2 py-2 text-center text-sm font-medium text-white transition-all duration-200 hover:bg-indigo-600"
         >
