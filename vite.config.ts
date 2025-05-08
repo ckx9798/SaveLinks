@@ -1,17 +1,11 @@
 import compression from "vite-plugin-compression";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { visualizer } from "rollup-plugin-visualizer";
+import { resolve } from "path";
 
 export default defineConfig({
   plugins: [
     react(),
-    visualizer({
-      open: true, // 분석 결과 자동으로 브라우저에서 열기
-      filename: "bundle-analysis.html", // 결과 파일 이름
-      gzipSize: true, // gzip 크기 표시
-      brotliSize: true, // brotli 크기 표시
-    }),
     compression({
       algorithm: "gzip", // gzip or brotliCompress
       ext: ".gz", // 생성될 파일 확장자
@@ -20,4 +14,25 @@ export default defineConfig({
       threshold: 2024, // 최소 압축 크기 (2KB 이상만 압축)
     }),
   ],
+  server: {
+    proxy: {
+      "/api": {
+        // target: "http://127.0.0.1:3001",
+        target: "https://savelinks-server.onrender.com",
+        changeOrigin: true,
+      },
+    },
+  },
+  build: {
+    outDir: "dist",
+    rollupOptions: {
+      input: {
+        popup: resolve(__dirname, "src/extension/popup.html"),
+        content: resolve(__dirname, "src/extension/content.ts"),
+      },
+      output: {
+        entryFileNames: "[name].js", // ✅ dist/assets 대신 dist/로 바로 출력
+      },
+    },
+  },
 });
