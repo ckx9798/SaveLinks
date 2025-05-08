@@ -30,7 +30,7 @@ window.addEventListener("message", (event) => {
   }
 });
 
-// 3. 폴링 대신 storage 변경 감지
+// storage 변경 감지
 chrome.storage.onChanged.addListener((changes) => {
   if (changes.savedShortsList) {
     sendSavedUrlsToWebsite();

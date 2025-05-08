@@ -8,7 +8,7 @@ export default function ExtensionShorts({ shortsObj }: ExtensionShortsProps) {
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className="group relative aspect-[2/3] w-full xl:max-w-[460px]">
+    <div className="group relative aspect-[2/3] w-full xl:max-w-[460px]" onMouseLeave={() => setOpenDropdownId(null)}>
       {!loaded && (
         <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-gray03">
           <ClipLoader color="#36d7b7" size={48} />
