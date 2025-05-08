@@ -24,3 +24,6 @@ export interface ExtensionDeleteModalProps {
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenDropdownId: React.Dispatch<React.SetStateAction<string | null>>;
 }
+export interface ExtensionHeaderProps {
+  maxWidth: string;
+}

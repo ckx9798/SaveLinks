@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 
+import { ShortsObjProps } from "../type/extension";
+
 export function useSavedUrls() {
-  const [savedUrls, setSavedUrls] = useState([]);
+  const [savedUrls, setSavedUrls] = useState<ShortsObjProps[]>([]);
 
   const deleteItem = useCallback((itemId: string) => {
     window.postMessage(
