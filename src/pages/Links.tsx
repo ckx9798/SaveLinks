@@ -1,7 +1,6 @@
-import { LinkResponse, LinksByIdResponse } from "../type/link";
 import { getFolder, postFolder } from "../api/folder";
 import { getLinks, getLinksById } from "../api/links";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import ChageFolderNameImage from "../components/Folder/ChageFolderNameImage";
 import CommonModal from "../components/Modal/CommonModal";
@@ -9,9 +8,11 @@ import Cookies from "js-cookie";
 import DeleteFolderImage from "../components/Folder/DeleteFolderImage";
 import { Folder } from "../type/folder";
 import LinkItem from "../components/LinkItem";
+import { LinksByIdResponse } from "../type/link";
 import NoLinks from "../components/NoLinks";
 import SearchLinkPart from "../components/LinksPage/SerchLinkPart";
 import SeletFolderPart from "../components/LinksPage/SeletFolderPart";
+import { useInfiniteScroll } from "../utils/useInfiniteScroll";
 import { useState } from "react";
 
 export default function Links() {
@@ -24,11 +25,30 @@ export default function Links() {
   const queryEnabled = !!token;
 
   // 링크 리스트 가져오기 API 요청
-  const { data: linksData } = useQuery<LinkResponse>({
-    queryKey: ["links"],
+  //   const { data: linksData } = useQuery<LinkResponse>({
+  //     queryKey: ["links"],
+  //     queryFn: getLinks,
+  //     enabled: queryEnabled,
+  //   });
+
+  const {
+    data: linkData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["links", "infinity"],
     queryFn: getLinks,
-    enabled: queryEnabled,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      const totalPage = Math.ceil(lastPage.totalCount / 10);
+      const nextPage = lastPage.currentPage + 1;
+      return nextPage <= totalPage ? nextPage : undefined;
+    },
   });
+
+  const observerRef = useInfiniteScroll(fetchNextPage, hasNextPage ?? false, isFetchingNextPage);
+  const linkList = linkData?.pages.flatMap((page) => page.list) || [];
 
   // 폴더 리스트 가져오기 API 요청
   const { data: folderData, isLoading: isFolderLoading } = useQuery<Folder[]>({
@@ -65,7 +85,7 @@ export default function Links() {
   };
 
   // 폴더 필터링 로직
-  const linkList = currentFolder ? folderLinksData?.list || [] : linksData?.list || [];
+  const linkListMap = currentFolder ? folderLinksData?.list || [] : linkList || [];
   const filteredLinks = linkList.filter(
     (link) =>
       link.title.toLowerCase().includes(searchLink.toLowerCase()) ||
@@ -105,11 +125,12 @@ export default function Links() {
       </div>
 
       {/* 링크 목록 */}
-      {(searchLink ? filteredLinks : linkList).length !== 0 ? (
+      {(searchLink ? filteredLinks : linkListMap).length !== 0 ? (
         <div className="align-items-center mx-auto mb-10 grid w-full max-w-[1200px] grid-cols-1 justify-items-center gap-4 px-4 pt-4 sm:grid-cols-2 md:gap-y-8 lg:grid-cols-3 lg:gap-x-10 xl:px-0">
-          {(searchLink ? filteredLinks : linkList).map((link) => (
+          {(searchLink ? filteredLinks : linkListMap).map((link) => (
             <LinkItem key={link.id} link={link} />
           ))}
+          <div ref={observerRef} className="h-10 w-full" />
         </div>
       ) : (
         <NoLinks />
