@@ -3,6 +3,7 @@ import { getLinks, getLinksById } from "../api/links";
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import ChageFolderNameImage from "../components/Folder/ChageFolderNameImage";
+import { ClipLoader } from "react-spinners";
 import CommonModal from "../components/Modal/CommonModal";
 import Cookies from "js-cookie";
 import DeleteFolderImage from "../components/Folder/DeleteFolderImage";
@@ -31,13 +32,15 @@ export default function Links() {
   //     enabled: queryEnabled,
   //   });
 
+  // 링크 리스트 가져오기 API 요청
   const {
     data: linkData,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    isLoading,
   } = useInfiniteQuery({
-    queryKey: ["links", "infinity"],
+    queryKey: ["links"],
     queryFn: getLinks,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
@@ -103,7 +106,7 @@ export default function Links() {
 
   return (
     <div className="h-auto min-h-screen bg-gray04 px-6 pb-2">
-      <div className="flex flex-col items-center justify-center pt-10 md:mx-6">
+      <div className="flex flex-col items-center justify-center pt-4">
         {/* 링크 검색 */}
         <SearchLinkPart setSearchLink={setSearchLink} />
         <SeletFolderPart
@@ -114,8 +117,10 @@ export default function Links() {
         />
 
         {currentFolder && (
-          <div className="my-3 flex w-full max-w-[1200px] items-center justify-between md:mb-10">
-            <div className="ml-1 text-3xl font-semibold text-gray02 lg:text-4xl">{currentFolder.name}</div>
+          <div className="my-3 flex w-full max-w-[1400px] items-center justify-between md:mb-10">
+            <div className="ml-1 text-3xl font-semibold text-gray02 lg:text-4xl">
+              <span className="text-lg">📂</span> {currentFolder.name}
+            </div>
             <div className="flex gap-4">
               <ChageFolderNameImage currentFolder={currentFolder} />
               <DeleteFolderImage currentFolder={currentFolder} setCurrentFolder={setCurrentFolder} />
@@ -126,11 +131,17 @@ export default function Links() {
 
       {/* 링크 목록 */}
       {(searchLink ? filteredLinks : linkListMap).length !== 0 ? (
-        <div className="align-items-center mx-auto mb-10 grid w-full max-w-[1200px] grid-cols-1 justify-items-center gap-4 px-4 pt-4 sm:grid-cols-2 md:gap-y-8 lg:grid-cols-3 lg:gap-x-10 xl:px-0">
+        <div
+          className={
+            "mx-auto grid w-full max-w-[1400px] gap-10 pb-40 pt-4 sm:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] md:pt-12 xl:grid-cols-[repeat(auto-fit,minmax(430px,1fr))]"
+          }
+        >
           {(searchLink ? filteredLinks : linkListMap).map((link) => (
             <LinkItem key={link.id} link={link} />
           ))}
-          <div ref={observerRef} className="h-10 w-full" />
+          <div ref={observerRef} className="mt-36 flex h-10 w-full items-center justify-center md:mt-52">
+            {isFetchingNextPage && <ClipLoader color="#60a5fa" size={40} />}
+          </div>
         </div>
       ) : (
         <NoLinks />

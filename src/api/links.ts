@@ -5,10 +5,14 @@ import apiClient from "./axiosInstance";
 import { toast } from "react-toastify";
 
 // 전체 링크 목록 가져오기
-export const getLinks = async (): Promise<LinkResponse> => {
+export const getLinks = async ({ pageParam = 1 }): Promise<LinkResponse> => {
   try {
-    const response: AxiosResponse<LinkResponse> = await apiClient.get("/links");
-    return response.data;
+    const response: AxiosResponse<LinkResponse> = await apiClient.get(`/links?page=${pageParam}`);
+
+    return {
+      ...response.data,
+      currentPage: pageParam,
+    };
   } catch (error) {
     const axiosError = error as AxiosError<ErrorResponse>;
     const message = axiosError.response?.data?.message || axiosError.message;
