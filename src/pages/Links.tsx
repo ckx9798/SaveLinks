@@ -26,13 +26,6 @@ export default function Links() {
   const queryEnabled = !!token;
 
   // 링크 리스트 가져오기 API 요청
-  //   const { data: linksData } = useQuery<LinkResponse>({
-  //     queryKey: ["links"],
-  //     queryFn: getLinks,
-  //     enabled: queryEnabled,
-  //   });
-
-  // 링크 리스트 가져오기 API 요청
   const {
     data: linkData,
     fetchNextPage,
@@ -130,7 +123,11 @@ export default function Links() {
       </div>
 
       {/* 링크 목록 */}
-      {(searchLink ? filteredLinks : linkListMap).length !== 0 ? (
+      {isLoading ? (
+        <div className="flex h-80 w-full items-center justify-center">
+          <ClipLoader color="#60a5fa" size={60} />
+        </div>
+      ) : (searchLink ? filteredLinks : linkListMap).length !== 0 ? (
         <div
           className={
             "mx-auto grid w-full max-w-[1400px] gap-10 pb-40 pt-4 sm:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] md:pt-12 xl:grid-cols-[repeat(auto-fit,minmax(430px,1fr))]"
