@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { Suspense } from "react";
 
+import Extension from "./pages/Extension";
 import PrivateRoute from "./pages/PrivateRoute";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"; // Devtools 추가
 import Shorts from "./pages/Shorts";
@@ -53,6 +54,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/shorts" element={<Shorts />} />
+            <Route path="/extension" element={<Extension />} />
             <Route
               path="/memos"
               element={
