@@ -14,19 +14,11 @@ export default defineConfig({
       threshold: 2024, // 최소 압축 크기 (2KB 이상만 압축)
     }),
   ],
-  server: {
-    proxy: {
-      "/api": {
-        // target: "http://127.0.0.1:3001",
-        target: "https://savelinks-server.onrender.com",
-        changeOrigin: true,
-      },
-    },
-  },
   build: {
     outDir: "dist",
     rollupOptions: {
       input: {
+        index: resolve(__dirname, "index.html"),
         popup: resolve(__dirname, "src/extension/popup.html"),
         content: resolve(__dirname, "src/extension/content.ts"),
       },
