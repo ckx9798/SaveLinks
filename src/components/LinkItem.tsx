@@ -9,23 +9,20 @@ import {
 } from "../utils/urlUtils";
 
 import ChangeDate from "../utils/ChangeDate";
+import { ClipLoader } from "react-spinners";
 import CommonModal from "./Modal/CommonModal";
+import LinkDropdown from "./LinkDropdown";
 import { LinkItemProps } from "../type/link";
-import LinksDropdown from "./LinkDropdown";
 import { TiStarFullOutline } from "react-icons/ti";
+import { createPortal } from "react-dom";
 import isValidUrl from "../utils/isValidUrl";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function LinkItem({ link }: LinkItemProps) {
-  const linkSource = isValidImage(link.imageSource) ? link.imageSource : "/link.svg"; // 기본 이미지 설정
-  const linkSourceClass =
-    linkSource === "/link.svg"
-      ? "h-[130px] md:h-3/5 w-full p-6 md:p-12 lg:p-14"
-      : "h-[130px] md:h-3/5 w-full object-cover";
-
   const [eachLink, setEachLink] = useState(link);
+  const [loading, setLoading] = useState(true);
 
   // 즐겨찾기 변경 로직
   const handleFavoriteClick = async (e: React.MouseEvent<SVGElement>) => {
@@ -50,6 +47,7 @@ export default function LinkItem({ link }: LinkItemProps) {
 
   // 드롭다운 모달
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  console.log(isEditModalOpen);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   // 링크 수정 로직
@@ -105,42 +103,61 @@ export default function LinkItem({ link }: LinkItemProps) {
   }
 
   return (
-    <>
-      <a
-        href={normalizeUrl(link.url)}
-        target="_blank"
-        className="overflow-hidden rounded-xl border-gray04 border-transparent bg-gray01 transition-all hover:scale-[1.02] hover:border-2 hover:border-primary"
-      >
-        <div className="relative h-[260px] w-[160px] overflow-hidden shadow-xl hover:scale-105 sm:w-[280px] md:h-[440px] md:w-[380px] lg:h-[700px] lg:w-[360px]">
+    <div className="relative overflow-hidden rounded-xl border-gray04 border-transparent bg-gray01 transition-all hover:scale-[1.02] hover:border-2 hover:border-primary">
+      {loading && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-white bg-opacity-70">
+          <ClipLoader color="#60a5fa" size={50} />
+        </div>
+      )}
+      <a href={normalizeUrl(link.url)} target="_blank">
+        <div className="relative h-[380px] w-full overflow-hidden shadow-xl md:h-[420px] xl:h-[480px]">
           {/* 즐겨찾기 아이콘 */}
           <TiStarFullOutline
             className={`absolute right-1 top-1 text-3xl ${eachLink.favorite ? "text-yellow-300" : "text-slate-400"}`}
             onClick={handleFavoriteClick}
           />
-
           {/* 이미지 or Instagram Reels iframe or fallback */}
-          {isInstagramReel(link.url) ? (
-            <iframe
-              src={`https://www.instagram.com/reel/${extractInstagramId(normalizeInstagramUrl(link.url))}/embed`}
-              className="h-full w-full object-cover"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-            />
-          ) : isYoutube(link.url) ? (
-            <iframe
-              src={normalizeYoutubeUrl(link.url)}
-              className="h-full w-full object-cover"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-            />
-          ) : isValidImage(link.imageSource) ? (
-            <img src={link.imageSource} className={linkSourceClass} />
-          ) : (
-            <img src="/link.svg" className={linkSourceClass} />
-          )}
-
+          <div className="h-3/5">
+            {isInstagramReel(link.url) ? (
+              // 인스타
+              <iframe
+                src={`https://www.instagram.com/reel/${extractInstagramId(normalizeInstagramUrl(link.url))}/embed`}
+                className="h-full w-full object-cover"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                onLoad={() => setLoading(false)}
+                style={{ visibility: loading ? "hidden" : "visible" }}
+              />
+            ) : isYoutube(link.url) ? (
+              // 유튜브
+              <iframe
+                src={normalizeYoutubeUrl(link.url)}
+                className="h-full w-full object-cover"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                onLoad={() => setLoading(false)}
+                style={{ visibility: loading ? "hidden" : "visible" }}
+              />
+            ) : isValidImage(link.imageSource) ? (
+              // 일반
+              <img
+                src={link.imageSource}
+                className={"h-full w-full object-cover"}
+                onLoad={() => setLoading(false)}
+                style={{ visibility: loading ? "hidden" : "visible" }}
+              />
+            ) : (
+              // no 이미지
+              <img
+                src="/link.svg"
+                className={"h-full w-full p-12"}
+                onLoad={() => setLoading(false)}
+                style={{ visibility: loading ? "hidden" : "visible" }}
+              />
+            )}
+          </div>
           {/* 내용 영역 */}
-          <div className="flex flex-col px-4 py-2">
+          <div className="flex h-2/5 flex-col justify-between px-4 py-2">
             <div className="relative flex justify-between">
               {/* 제목 */}
               <p className="my-1 line-clamp-1 font-semibold text-blue-300 md:text-2xl">{eachLink.title}</p>
@@ -150,16 +167,18 @@ export default function LinkItem({ link }: LinkItemProps) {
 
               {/* 드롭다운 메뉴 */}
               {isDropdownOpen && (
-                <LinksDropdown
+                <LinkDropdown
                   linkId={link.id}
                   setIsEditModalOpen={setIsEditModalOpen}
                   setIsDeleteModalOpen={setIsDeleteModalOpen}
+                  setIsDropdownOpen={setIsDropdownOpen}
                 />
               )}
             </div>
 
             {/* 설명 */}
-            <h2 className="my-1 line-clamp-2 min-h-[48px] text-xl leading-6 md:my-2 md:min-h-[64px] md:text-2xl md:font-medium">
+            <h2 className="overflow-y-auto whitespace-pre-line text-xl md:my-2 md:text-2xl md:font-medium">
+              {/* md:min-h-[64px] */}
               {link.description || `Move to ${eachLink.title}`}
             </h2>
 
@@ -189,6 +208,6 @@ export default function LinkItem({ link }: LinkItemProps) {
           buttonColor="gradientRed"
         />
       )}
-    </>
+    </div>
   );
 }
