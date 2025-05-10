@@ -3,6 +3,8 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 
+const isExtensionBuild = process.env.BUILD_TARGET === "extension";
+
 export default defineConfig({
   plugins: [
     react(),
@@ -14,25 +16,16 @@ export default defineConfig({
       threshold: 2024, // 최소 압축 크기 (2KB 이상만 압축)
     }),
   ],
-  server: {
-    proxy: {
-      "/api": {
-        // target: "http://127.0.0.1:3001",
-        target: "https://savelinks-server.onrender.com",
-        changeOrigin: true,
-      },
-    },
-  },
   build: {
     outDir: "dist",
     rollupOptions: {
-      input: {
-        popup: resolve(__dirname, "src/extension/popup.html"),
-        content: resolve(__dirname, "src/extension/content.ts"),
-      },
-      output: {
-        entryFileNames: "[name].js", // ✅ dist/assets 대신 dist/로 바로 출력
-      },
+      input: isExtensionBuild
+        ? {
+            popup: resolve(__dirname, "src/extension/popup.html"),
+            content: resolve(__dirname, "src/extension/content.ts"),
+          }
+        : resolve(__dirname, "index.html"),
+      output: isExtensionBuild ? { entryFileNames: "[name].js" } : {}, // 웹 배포는 기본 출력 설정 사용
     },
   },
 });
