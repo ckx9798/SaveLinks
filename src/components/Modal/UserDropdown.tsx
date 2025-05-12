@@ -2,7 +2,14 @@ import { useEffect, useRef } from "react";
 
 import { UserDropdownProps } from "../../type/modal";
 
-export default function UserDropdown({ onClose, onLinkClick, onMemoClick, onLogoutClick }: UserDropdownProps) {
+export default function UserDropdown({
+  onClose,
+  onLinkClick,
+  onMemoClick,
+  onShortsClick,
+  onExtensionClick,
+  onLogoutClick,
+}: UserDropdownProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -20,7 +27,7 @@ export default function UserDropdown({ onClose, onLinkClick, onMemoClick, onLogo
 
   return (
     <div
-      className="animate-dropdown absolute right-0 top-10 mt-2 w-24 translate-y-2 overflow-hidden scroll-smooth rounded-xl bg-white opacity-0 shadow-lg ring-1 ring-black/10 transition-all duration-300 ease-out md:w-44"
+      className="absolute right-0 top-10 mt-2 w-24 translate-y-2 animate-dropdown overflow-hidden scroll-smooth rounded-xl bg-white opacity-0 shadow-lg ring-1 ring-black/10 transition-all duration-300 ease-out md:w-44"
       onClick={onClose}
       ref={dropdownRef}
     >
@@ -41,6 +48,24 @@ export default function UserDropdown({ onClose, onLinkClick, onMemoClick, onLogo
         }}
       >
         Memos
+      </button>
+      <button
+        className="w-full border-b-2 px-4 py-2 text-center transition-colors hover:bg-gray-100 hover:font-bold hover:text-primary"
+        onClick={() => {
+          onShortsClick();
+          onClose();
+        }}
+      >
+        Shorts
+      </button>
+      <button
+        className="w-full border-b-2 px-4 py-2 text-center transition-colors hover:bg-gray-100 hover:font-bold hover:text-primary"
+        onClick={() => {
+          onExtensionClick();
+          onClose();
+        }}
+      >
+        Extension
       </button>
       <button
         className="w-full px-4 py-2 text-center transition-colors hover:bg-gray-100 hover:font-bold hover:text-primary"
