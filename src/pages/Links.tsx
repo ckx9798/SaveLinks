@@ -55,7 +55,7 @@ export default function Links() {
   const folderList = folderData || [];
 
   // 폴더 클릭 시 링크 리스트 변경
-  const { data: folderLinksData } = useQuery<LinksByIdResponse>({
+  const { data: folderLinksData, isFetching: isFolderLinksFetching } = useQuery<LinksByIdResponse>({
     queryKey: ["folderLinks", currentFolder?.id],
     queryFn: () => {
       if (!currentFolder) {
@@ -75,7 +75,7 @@ export default function Links() {
         id: folderId,
         name: folderName,
         createdAt: new Date().toISOString(),
-        linkCount: 0, // API 데이터에서 가져올 수 있음
+        linkCount: 0,
       });
     }
   };
@@ -102,12 +102,18 @@ export default function Links() {
       <div className="flex flex-col items-center justify-center pt-4">
         {/* 링크 검색 */}
         <SearchLinkPart setSearchLink={setSearchLink} />
-        <SeletFolderPart
-          folderList={folderList}
-          handleFolderClick={handleFolderClick}
-          setIsAddFolderModalOpen={setIsAddFolderModalOpen}
-          isLoading={isFolderLoading}
-        />
+        {isFolderLoading ? (
+          <div className="flex h-32 w-full items-center justify-center">
+            <ClipLoader color="#60a5fa" size={40} />
+          </div>
+        ) : (
+          <SeletFolderPart
+            folderList={folderList}
+            handleFolderClick={handleFolderClick}
+            setIsAddFolderModalOpen={setIsAddFolderModalOpen}
+            isLoading={isFolderLoading}
+          />
+        )}
 
         {currentFolder && (
           <div className="my-3 flex w-full max-w-[1400px] items-center justify-between md:mb-10">
@@ -123,14 +129,18 @@ export default function Links() {
       </div>
 
       {/* 링크 목록 */}
-      {isLoading ? (
+      {currentFolder && isFolderLinksFetching ? (
+        <div className="flex h-80 w-full items-center justify-center">
+          <ClipLoader color="#60a5fa" size={60} />
+        </div>
+      ) : isLoading ? (
         <div className="flex h-80 w-full items-center justify-center">
           <ClipLoader color="#60a5fa" size={60} />
         </div>
       ) : (searchLink ? filteredLinks : linkListMap).length !== 0 ? (
         <div
           className={
-            "mx-auto grid w-full max-w-[1400px] gap-10 pb-40 pt-4 sm:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] md:pt-12 xl:grid-cols-[repeat(auto-fit,minmax(430px,1fr))]"
+            "mx-auto grid w-full max-w-[1400px] gap-10 pb-40 pt-4 sm:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] xl:grid-cols-[repeat(auto-fit,minmax(430px,1fr))]"
           }
         >
           {(searchLink ? filteredLinks : linkListMap).map((link) => (
