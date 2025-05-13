@@ -4,7 +4,7 @@ import ExtensionShorts from "../extension/ExtensionShorts";
 import { getMaxWidth } from "../utils/getMaxWidth";
 import { useSavedUrls } from "../utils/useSavedUrls";
 
-export default function Extension() {
+export default function ShortsExtension() {
   const { savedUrls } = useSavedUrls();
   const maxWidth = getMaxWidth(savedUrls.length);
 
