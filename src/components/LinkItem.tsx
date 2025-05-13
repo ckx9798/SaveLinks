@@ -187,27 +187,31 @@ export default function LinkItem({ link }: LinkItemProps) {
           </div>
         </div>
       </a>
-      {isEditModalOpen && (
-        <CommonModal
-          title="Edit Link"
-          inputPlaceholder="write New Link URL"
-          buttonText="Edit"
-          onClose={handleEditModalClose}
-          onSubmit={sendEditLinkRequest}
-          inputValue={newLink}
-          setInputValue={setNewLink}
-        />
-      )}
-      {isDeleteModalOpen && (
-        <CommonModal
-          title="Delete this Link?"
-          buttonText="Delete"
-          onClose={handleDeleteModalClose}
-          onSubmit={sendDeleteRequest}
-          showInput={false}
-          buttonColor="gradientRed"
-        />
-      )}
+      {isEditModalOpen &&
+        createPortal(
+          <CommonModal
+            title="Edit Link"
+            inputPlaceholder="write New Link URL"
+            buttonText="Edit"
+            onClose={handleEditModalClose}
+            onSubmit={sendEditLinkRequest}
+            inputValue={newLink}
+            setInputValue={setNewLink}
+          />,
+          document.body
+        )}
+      {isDeleteModalOpen &&
+        createPortal(
+          <CommonModal
+            title="Delete this Link?"
+            buttonText="Delete"
+            onClose={handleDeleteModalClose}
+            onSubmit={sendDeleteRequest}
+            showInput={false}
+            buttonColor="gradientRed"
+          />,
+          document.body
+        )}
     </div>
   );
 }
