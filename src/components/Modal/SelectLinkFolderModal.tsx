@@ -8,7 +8,12 @@ import { postLinks } from "../../api/links";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
-export default function SelectLinkFolderModal({ setIsModal, folderList, newLink }: SelectLinkFolderModalProps) {
+export default function SelectLinkFolderModal({
+  setIsModal,
+  folderList,
+  newLink,
+  setNewLink,
+}: SelectLinkFolderModalProps) {
   const [selectFolder, setSelectFolder] = useState<number | null>(null);
 
   const queryClient = useQueryClient();
@@ -25,6 +30,9 @@ export default function SelectLinkFolderModal({ setIsModal, folderList, newLink 
 
       await postLinks(cleanedLink, selectFolder);
       await queryClient.invalidateQueries({ queryKey: ["links"] });
+      await queryClient.invalidateQueries({ queryKey: ["folders"] });
+
+      setNewLink("");
       setIsModal(false);
     }
   };
@@ -37,11 +45,13 @@ export default function SelectLinkFolderModal({ setIsModal, folderList, newLink 
           onClick={() => setIsModal(false)}
         />
         <div>
-          <h2 className="text-4xl font-medium md:text-5xl">Selet Folder</h2>
-          <h3 className="text-center text-2xl text-gray-400">{newLink}</h3>
+          <h2 className="text-center text-4xl font-medium text-black md:text-5xl">Selet Folder</h2>
+          <h3 className="mt-4 line-clamp-2 max-w-[400px] whitespace-pre-line text-center text-2xl text-gray-400">
+            {newLink}
+          </h3>
         </div>
 
-        <ul className="mb-6 mt-4 flex flex-col gap-1 text-2xl">
+        <ul className="my-8 flex flex-col gap-1 text-2xl">
           {folderList.map((folder) => {
             return (
               <li
