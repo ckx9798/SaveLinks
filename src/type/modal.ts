@@ -12,6 +12,7 @@ export interface UserDropdownProps {
   onLinkClick: () => void;
   onMemoClick: () => void;
   onShortsClick: () => void;
+  onExtensionClick: () => void;
   onLogoutClick: () => void;
 }
 
