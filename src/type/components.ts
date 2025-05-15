@@ -29,6 +29,7 @@ export interface LinkDropdownProps {
   linkId: number;
   setIsEditModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface UserFavoriteLinksProps {

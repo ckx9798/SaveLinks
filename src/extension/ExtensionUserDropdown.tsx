@@ -1,15 +1,18 @@
 import { useEffect, useRef } from "react";
 
-import { UserDropdownProps } from "../../type/modal";
+export interface ExtensionUserDropdown {
+  onClose: () => void;
+  onSingUpClick: () => void;
+  onMemoClick: () => void;
+  onLogoutClick: () => void;
+}
 
-export default function UserDropdown({
+export default function ExtensionUserDropdown({
   onClose,
-  onLinkClick,
+  onSingUpClick,
   onMemoClick,
-  onShortsClick,
-  onExtensionClick,
   onLogoutClick,
-}: UserDropdownProps) {
+}: ExtensionUserDropdown) {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,18 +30,18 @@ export default function UserDropdown({
 
   return (
     <div
-      className="absolute right-0 top-10 mt-2 w-24 translate-y-2 animate-dropdown overflow-hidden scroll-smooth rounded-xl bg-white opacity-0 shadow-lg ring-1 ring-black/10 transition-all duration-300 ease-out md:w-44"
+      className="absolute right-0 top-10 z-10 mt-2 w-24 translate-y-2 animate-dropdown overflow-hidden scroll-smooth rounded-xl bg-white opacity-0 shadow-lg ring-1 ring-black/10 transition-all duration-300 ease-out md:w-44"
       onClick={onClose}
       ref={dropdownRef}
     >
       <button
         className="w-full border-b-2 px-4 py-2 text-center transition-colors hover:bg-gray-100 hover:font-bold hover:text-primary md:py-2"
         onClick={() => {
-          onLinkClick();
+          onSingUpClick();
           onClose();
         }}
       >
-        Links
+        Sign Up
       </button>
       <button
         className="w-full border-b-2 px-4 py-2 text-center transition-colors hover:bg-gray-100 hover:font-bold hover:text-primary"
@@ -48,24 +51,6 @@ export default function UserDropdown({
         }}
       >
         Memos
-      </button>
-      <button
-        className="w-full border-b-2 px-4 py-2 text-center transition-colors hover:bg-gray-100 hover:font-bold hover:text-primary"
-        onClick={() => {
-          onShortsClick();
-          onClose();
-        }}
-      >
-        Shorts
-      </button>
-      <button
-        className="w-full border-b-2 px-4 py-2 text-center transition-colors hover:bg-gray-100 hover:font-bold hover:text-primary"
-        onClick={() => {
-          onExtensionClick();
-          onClose();
-        }}
-      >
-        Extension
       </button>
       <button
         className="w-full px-4 py-2 text-center transition-colors hover:bg-gray-100 hover:font-bold hover:text-primary"

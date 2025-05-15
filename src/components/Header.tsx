@@ -10,16 +10,26 @@ export default function Header() {
 
   const moveToLinks = () => navigate("/links");
   const moveToMemos = () => navigate("/memos");
+  const moveToShorts = () => navigate("/shorts");
+  const moveToExtension = () => navigate("/extension");
   const moveToFavorite = () => navigate("/favorite");
   const handleLogout = () => {
-    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.cookie =
+      "access|token=; " +
+      "path=/; " +
+      "domain=www.savelinks.xyz; " +
+      "SameSite=Strict; " +
+      "expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+    document.cookie = "token=; path=/; domain=www.savelinks.xyz; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
     navigate("/login");
   };
 
   const UserDropdown = lazy(() => import("./Modal/UserDropdown"));
 
   return (
-    <div className="relative my-4 flex h-[65px] w-full max-w-[1200px] items-center justify-between md:my-6">
+    <div className="relative my-4 flex h-[65px] w-full max-w-[1400px] items-center justify-between md:my-6">
       <img
         src="/saveLinks_logo.webp"
         onClick={moveToLinks}
@@ -40,6 +50,8 @@ export default function Header() {
                 onClose={() => setIsMenuOpen(false)}
                 onLinkClick={moveToLinks}
                 onMemoClick={moveToMemos}
+                onShortsClick={moveToShorts}
+                onExtensionClick={moveToExtension}
                 onLogoutClick={handleLogout}
               />
             </Suspense>

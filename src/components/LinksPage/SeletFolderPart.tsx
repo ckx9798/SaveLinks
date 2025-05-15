@@ -14,11 +14,10 @@ export default function SeletFolderPart({
   const modifiedFolderList = [{ id: 0, name: "전체" }, ...(folderList ?? [])];
 
   return (
-    <div className="my-3 flex w-full max-w-[1200px] justify-between md:my-6">
-      {/* 폴더 + 버튼  */}
-      <div className="mt-3 flex w-full items-start justify-between">
+    <div className="my-3 flex w-full max-w-[1400px] justify-between md:my-6">
+      <div className="mt-3 flex w-full items-start justify-between gap-2">
         {/* 폴더 리스트 */}
-        <div className="flex flex-wrap gap-1 md:gap-4">
+        <div className="flex flex-wrap gap-2 md:gap-4">
           {modifiedFolderList.map((folder) => (
             <Folder
               folderName={folder.name}
@@ -30,7 +29,7 @@ export default function SeletFolderPart({
 
         {/*폴더 추가 버튼 */}
         <button
-          className="flex items-center justify-center rounded-md bg-gray01 px-4 sm:py-1 md:text-2xl lg:rounded-full"
+          className="flex items-center justify-center rounded-md bg-gradient-to-r from-primary to-secondary px-4 sm:py-1 md:text-2xl lg:rounded-full"
           onClick={() => setIsAddFolderModalOpen((prev) => !prev)}
         >
           <span className="text-3xl">+</span>

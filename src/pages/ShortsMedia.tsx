@@ -5,7 +5,7 @@ import ShortsItem from "../components/Shorts/ShortsItem";
 import { getShortsLink } from "../api/shorts";
 import { useQuery } from "@tanstack/react-query";
 
-export default function Shorts() {
+export default function ShortsMedia() {
   const { data: shortsData = [] } = useQuery({
     queryKey: ["shorts"],
     queryFn: getShortsLink,
