@@ -35,7 +35,7 @@ export default function Home() {
             <span className="text-2xl lg:text-4xl">를</span>
           </div>
           <div>
-            <span className="text-2xl lg:text-6xl">쉽게 저장하고 관리해보세요</span>
+            <span className="text-2xl lg:text-4xl">쉽게 저장하고 관리해보세요</span>
           </div>
           <button
             className="mt-6 rounded-full bg-white px-8 py-1 text-xl font-medium text-black md:py-2 md:text-2xl lg:mt-12 lg:text-3xl"
@@ -46,31 +46,58 @@ export default function Home() {
         </div>
       </div>
 
-      <HomeSection
-        title="원하는 링크를 저장하세요"
-        descriptions={[
-          "나중에 읽고 싶은 글, 다시 보고 싶은 영상,",
-          "사고 싶은 옷, 기억하고 싶은 모든 것을",
-          "한 공간에 저장하세요.",
-        ]}
-        imgSrc="/home_1.webp"
-        aosType="fade-down"
-      />
+      <div className="mb-48 flex flex-col items-center md:px-20">
+        <HomeSection
+          title="원하는 영상을 즉시 저장하세요"
+          descriptions={[
+            "익스텐션을 통해",
+            "마음에 드는 유튜브, 인스타 영상을",
+            "발견한 즉시 바로 저장하고",
+            "한페이지에서 한 눈에 확인하세요",
+          ]}
+          imgSrc="/home_4.webp"
+          aosType="fade-left"
+        />
 
-      <HomeSection
-        title="링크를 폴더로 관리하세요"
-        descriptions={["나만의 폴더를 무제한으로 만들고", "다양하게 활용할 수 있습니다."]}
-        imgSrc="/home_2.webp"
-        imgFirst
-        aosType="fade-left"
-      />
+        <HomeSection
+          title="궁금한 링크는 Gemini에게 물어보세요"
+          descriptions={[
+            "생각나지 않거나 알고 싶은 사이트 등",
+            "모든 정보를 ",
+            "왼쪽 하단의 채팅 기능으로",
+            "바로 정보를 획득하고",
+            "해당 링크를 저장해보세요",
+          ]}
+          imgSrc="/home_5.webp"
+          aosType="fade-right"
+        />
 
-      <HomeSection
-        title="간단한 메모를 작성해보세요"
-        descriptions={["손쉽게 메모를 생성하고", "수정하고 삭제해보세요"]}
-        imgSrc="/home_3.webp"
-        aosType="fade-right"
-      />
+        <HomeSection
+          title="원하는 링크를 저장하세요"
+          descriptions={[
+            "나중에 읽고 싶은 글, 다시 보고 싶은 영상,",
+            "사고 싶은 옷, 기억하고 싶은 모든 것을",
+            "저장하고 싶으면",
+            "로그인을 통해 저장하세요",
+          ]}
+          imgSrc="/home_1.webp"
+          aosType="fade-down"
+        />
+
+        <HomeSection
+          title="링크를 폴더로 관리하세요"
+          descriptions={["나만의 폴더를 무제한으로 만들고", "다양하게 활용할 수 있습니다."]}
+          imgSrc="/home_2.webp"
+          aosType="fade-left"
+        />
+
+        <HomeSection
+          title="간단한 메모를 작성해보세요"
+          descriptions={["손쉽게 메모를 생성하고", "수정하고 삭제해보세요"]}
+          imgSrc="/home_3.webp"
+          aosType="fade-right"
+        />
+      </div>
     </>
   );
 }
