@@ -41,7 +41,7 @@ export default function Memos() {
 
       <div className="h-full min-h-[100vh] bg-gray04 py-4">
         {memos.length !== 0 ? (
-          <div className="align-items-center mx-auto mb-6 grid w-full max-w-[1200px] grid-cols-1 justify-items-center gap-x-2 gap-y-2 px-6 sm:grid-cols-2 md:gap-4 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-4">
+          <div className="align-items-center mx-auto mb-6 grid w-full max-w-[1400px] grid-cols-1 justify-items-center gap-x-2 gap-y-2 px-6 sm:grid-cols-2 md:gap-4 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-4">
             {memos.map((memo) => (
               <MemoItem
                 key={memo.id}
