@@ -39,6 +39,7 @@ export default function AddLink() {
           <input
             placeholder="Try adding a link"
             className="text-md mr-5 w-full bg-inherit px-2 focus:outline-none md:py-2 xl:text-2xl"
+            value={newLink}
             onChange={(e) => {
               setNewLink(e.target.value);
             }}
@@ -48,7 +49,12 @@ export default function AddLink() {
       </div>
       {isModal && (
         <Suspense fallback={null}>
-          <SelectLinkFolderModal setIsModal={setIsModal} folderList={folderList} newLink={newLink} />
+          <SelectLinkFolderModal
+            setIsModal={setIsModal}
+            folderList={folderList}
+            newLink={newLink}
+            setNewLink={setNewLink}
+          />
         </Suspense>
       )}
     </>
