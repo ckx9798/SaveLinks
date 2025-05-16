@@ -10,8 +10,10 @@ export default function Header() {
 
   const moveToLinks = () => navigate("/links");
   const moveToMemos = () => navigate("/memos");
-  const moveToShorts = () => navigate("/shorts");
-  const moveToExtension = () => navigate("/extension");
+  const moveToShorts = () => {
+    navigate("/shorts");
+    window.location.reload();
+  };
   const moveToFavorite = () => navigate("/favorite");
   const handleLogout = () => {
     document.cookie =
@@ -51,7 +53,6 @@ export default function Header() {
                 onLinkClick={moveToLinks}
                 onMemoClick={moveToMemos}
                 onShortsClick={moveToShorts}
-                onExtensionClick={moveToExtension}
                 onLogoutClick={handleLogout}
               />
             </Suspense>
