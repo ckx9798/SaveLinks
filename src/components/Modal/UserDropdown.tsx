@@ -7,7 +7,6 @@ export default function UserDropdown({
   onLinkClick,
   onMemoClick,
   onShortsClick,
-  onExtensionClick,
   onLogoutClick,
 }: UserDropdownProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -57,15 +56,6 @@ export default function UserDropdown({
         }}
       >
         Shorts
-      </button>
-      <button
-        className="w-full border-b-2 px-4 py-2 text-center transition-colors hover:bg-gray-100 hover:font-bold hover:text-primary"
-        onClick={() => {
-          onExtensionClick();
-          onClose();
-        }}
-      >
-        Extension
       </button>
       <button
         className="w-full px-4 py-2 text-center transition-colors hover:bg-gray-100 hover:font-bold hover:text-primary"
