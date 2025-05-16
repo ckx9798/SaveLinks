@@ -1,15 +1,18 @@
 // src/ChatAi.tsx
 
-import { ChatHistoryProps, MotionChatButtonProps } from "../../type/chat";
-
+import { MotionChatButtonProps } from "../../type/chat";
 import ReactMarkdown from "react-markdown";
 import { askToGemini } from "./chat";
 import { useState } from "react";
 
-export default function ChatAi({ setIsChatOpen }: MotionChatButtonProps) {
+export default function ChatAi({
+  setIsChatOpen,
+  chatHistory,
+  setChatHistory,
+  loading,
+  setLoading,
+}: MotionChatButtonProps) {
   const [input, setInput] = useState("");
-  const [chatHistory, setChatHistory] = useState<ChatHistoryProps[]>([]);
-  const [loading, setLoading] = useState(false);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -22,7 +25,7 @@ export default function ChatAi({ setIsChatOpen }: MotionChatButtonProps) {
 
   return (
     <div
-      className="fixed bottom-6 left-6 z-50 flex h-[300px] w-[300px] flex-col rounded-2xl bg-white shadow-2xl lg:h-[400px] lg:w-[400px]"
+      className="fixed bottom-6 left-6 z-50 flex h-[300px] w-[330px] flex-col rounded-2xl bg-white shadow-2xl lg:h-[400px] lg:w-[400px]"
       style={{
         minHeight: 340,
         border: "1px solid #ececec",
@@ -30,22 +33,22 @@ export default function ChatAi({ setIsChatOpen }: MotionChatButtonProps) {
       }}
     >
       {/* 상단 바 */}
-      <div className="flex items-center justify-between rounded-t-2xl bg-gradient-to-r from-blue-500 to-sky-400 px-5 py-3">
+      <div className="flex items-center justify-between rounded-t-2xl bg-gradient-to-r from-blue-500 to-sky-400 px-3 py-1 lg:px-5 lg:py-3">
         <h1 className="flex items-center gap-2 text-lg font-bold text-white">
-          <span role="img" aria-label="chat">
+          <span role="img" aria-label="chat" className="pt-1">
             💬
           </span>
           Gemini Chat
         </h1>
         <button
-          className="flex h-8 w-8 items-center justify-center rounded-full text-xl text-white transition hover:bg-blue-600"
+          className="flex h-6 w-6 items-center justify-center rounded-full pt-1 text-sm text-white transition hover:bg-blue-600 lg:h-8 lg:w-8 lg:pt-2 lg:text-xl"
           onClick={() => setIsChatOpen((prev) => !prev)}
         >
           ✖
         </button>
       </div>
 
-      <div className="flex flex-1 flex-col overflow-y-auto px-5 py-4">
+      <div className="flex flex-1 flex-col gap-3 overflow-y-auto px-2 py-3 lg:px-5 lg:py-4">
         {chatHistory.map((chat, i) => (
           <div key={i} className="flmb-4 flex flex-col gap-4">
             <div className="max-w-[80%] self-end rounded-xl bg-blue-100 px-4 py-2 text-blue-900 shadow-sm">
@@ -65,7 +68,7 @@ export default function ChatAi({ setIsChatOpen }: MotionChatButtonProps) {
 
       {/* 입력창 */}
       <form
-        className="flex gap-2 rounded-b-2xl border-t border-gray-200 bg-white px-5 py-3"
+        className="flex gap-2 rounded-b-2xl border-t border-gray-200 bg-white px-3 py-2 lg:px-5 lg:py-3"
         onSubmit={(e) => {
           e.preventDefault();
           handleSend();
