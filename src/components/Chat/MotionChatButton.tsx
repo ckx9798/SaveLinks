@@ -2,10 +2,14 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import ChatAi from "./ChatAi";
 import ChatButton from "./ChatButton";
+import { ChatHistoryProps } from "../../type/chat";
 import { useState } from "react";
 
 export default function MotionChatButton() {
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatHistory, setChatHistory] = useState<ChatHistoryProps[]>([]);
+  const [loading, setLoading] = useState(false);
+
   return (
     <AnimatePresence mode="popLayout">
       {isChatOpen ? (
@@ -32,7 +36,13 @@ export default function MotionChatButton() {
           }}
           style={{ borderRadius: 16, overflow: "hidden" }}
         >
-          <ChatAi setIsChatOpen={setIsChatOpen} />
+          <ChatAi
+            setIsChatOpen={setIsChatOpen}
+            chatHistory={chatHistory}
+            setChatHistory={setChatHistory}
+            loading={loading}
+            setLoading={setLoading}
+          />
         </motion.div>
       ) : (
         <motion.div

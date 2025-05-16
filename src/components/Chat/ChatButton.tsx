@@ -1,7 +1,7 @@
+import { ChatButtonProps } from "../../type/chat";
 import { MessageCircle } from "lucide-react";
-import { MotionChatButtonProps } from "../../type/chat";
 
-export default function ChatButton({ setIsChatOpen }: MotionChatButtonProps) {
+export default function ChatButton({ setIsChatOpen }: ChatButtonProps) {
   return (
     <button
       onClick={() => setIsChatOpen((prev) => !prev)}
