@@ -4,6 +4,7 @@ import AddMemo from "../components/Memos/AddMemo";
 import Header from "../components/Header";
 import MemoItem from "../components/Memos/MemoItem";
 import { MemoProps } from "../type/memo";
+import MotionChatButton from "../components/Chat/MotionChatButton";
 import NoMemos from "../components/Memos/NoMemos";
 
 export default function Memos() {
@@ -56,6 +57,7 @@ export default function Memos() {
           <NoMemos />
         )}
       </div>
+      <MotionChatButton />
     </>
   );
 }
