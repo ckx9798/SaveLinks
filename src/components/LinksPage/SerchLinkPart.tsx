@@ -6,7 +6,7 @@ export default function SearchLinkPart({ setSearchLink }: SearchLinkPartProps) {
       <span>🔎</span>
       <input
         placeholder=" Please search for the link"
-        className="rounded-x w-full max-w-[1200px] bg-gray01 px-2 text-xl focus:outline-none"
+        className="rounded-x w-full max-w-[1400px] bg-gray01 px-2 text-xl focus:outline-none"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchLink(e.target.value)}
       />
     </div>

@@ -1,5 +1,6 @@
 import AddShorts from "../components/Shorts/AddShorts";
 import Header from "../components/Header";
+import MotionChatButton from "../components/Chat/MotionChatButton";
 import ShortsItem from "../components/Shorts/ShortsItem";
 import { getShortsLink } from "../api/shorts";
 import { useQuery } from "@tanstack/react-query";
@@ -34,6 +35,7 @@ export default function ShortsMedia() {
           ))}
         </div>
       </div>
+      <MotionChatButton />
     </>
   );
 }

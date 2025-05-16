@@ -12,6 +12,8 @@ export interface Link {
 
 export interface LinkResponse {
   list: Link[];
+  totalCount: number;
+  currentPage: number;
 }
 
 export interface LinksByIdResponse {

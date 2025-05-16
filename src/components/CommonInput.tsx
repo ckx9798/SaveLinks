@@ -10,12 +10,12 @@ export default function CommonInput<T extends FieldValues>({
 }: CommonInputProps<T>) {
   return (
     <div className="mb-4 flex flex-col text-xl">
-      <label className="mb-1 text-gray01">{labelName}</label>
+      <label className="mb-2 text-gray01">{labelName}</label>
       <input
         {...register(name)}
         type={type}
         placeholder={placeholder}
-        className="rounded-md border p-2 outline-none focus:outline-primary"
+        className="rounded-md border px-4 py-3 outline-none focus:outline-primary"
       />
     </div>
   );

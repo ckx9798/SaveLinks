@@ -4,12 +4,15 @@ export interface SelectLinkFolderModalProps {
   setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
   folderList: Folder[];
   newLink: string;
+  setNewLink: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface UserDropdownProps {
   onClose: () => void;
   onLinkClick: () => void;
   onMemoClick: () => void;
+  onShortsClick: () => void;
+  onExtensionClick: () => void;
   onLogoutClick: () => void;
 }
 

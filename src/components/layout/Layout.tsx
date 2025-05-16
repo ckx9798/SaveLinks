@@ -1,5 +1,6 @@
 import AddLink from "../AddLink";
 import Header from "../Header";
+import MotionChatButton from "../Chat/MotionChatButton";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
@@ -20,6 +21,7 @@ export default function Layout() {
         </div>
       </div>
       <Outlet />
+      <MotionChatButton />
     </>
   );
 }
