@@ -1,4 +1,11 @@
-import { isInstagramReel, isYoutube, normalizeInstagramUrl, normalizeYoutubeUrl } from "./urlUtils";
+import {
+  isInstagramReel,
+  isTiktok,
+  isYoutube,
+  normalizeInstagramUrl,
+  normalizeTiktokUrl,
+  normalizeYoutubeUrl,
+} from "./urlUtils";
 
 export const normalToEmbedUrl = (urls: string[]): string[] => {
   return urls.map((url) => {
@@ -18,6 +25,9 @@ export const normalToEmbedUrlSingle = (url: string): string => {
   }
   if (isInstagramReel(url)) {
     return normalizeInstagramUrl(url);
+  }
+  if (isTiktok(url)) {
+    return normalizeTiktokUrl(url);
   }
   return url;
 };
