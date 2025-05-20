@@ -12,7 +12,9 @@ export const normalizeUrl = (url: string) =>
 
 // 인스타 확인
 export const isInstagramReel = (url: string): boolean => {
-  return url.includes("instagram.com/reel");
+  return (
+    url.includes("instagram.com/reel/") || url.includes("instagram.com/reels/") || url.includes("instagram.com/p/")
+  );
 };
 
 // 인스타 ID 추출
@@ -29,6 +31,11 @@ export const normalizeInstagramUrl = (url: string): string => {
   if (url.includes("instagram.com/reels/")) {
     url = url.replace("instagram.com/reels/", "instagram.com/reel/");
   }
+
+  if (url.includes("instagram.com/p/")) {
+    url = url.replace("instagram.com/p/", "instagram.com/reel/");
+  }
+
   // ID 추출
   const match = url.match(/instagram\.com\/reel\/([^/?]+)/);
   const id = match ? match[1] : "";
@@ -68,5 +75,26 @@ export const normalizeYoutubeUrl = (url: string): string => {
     return `https://www.youtube.com/embed/${videoMatch[1]}`;
   }
 
+  return url;
+};
+
+// TikTok 확인
+export const isTiktok = (url: string): boolean => {
+  return url.includes("tiktok.com/") && url.includes("/video/");
+};
+
+// TikTok video ID 추출
+export const extractTiktokId = (url: string): string => {
+  const match = url.match(/\/video\/(\d+)/);
+  return match ? match[1] : "";
+};
+
+// TikTok 임베드용 변환
+export const normalizeTiktokUrl = (url: string): string => {
+  url = url.trim();
+  const id = extractTiktokId(url);
+  if (id) {
+    return `https://www.tiktok.com/embed/${id}`;
+  }
   return url;
 };
