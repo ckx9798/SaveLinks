@@ -1,6 +1,7 @@
 import { BackgroundImage } from "../extension/BackgroundImage";
 import ExtensionHeader from "../extension/ExtensionHeader";
 import ExtensionShorts from "../extension/ExtensionShorts";
+import MotionChatButton from "../components/Chat/MotionChatButton";
 import { getMaxWidth } from "../utils/getMaxWidth";
 import { useSavedUrls } from "../utils/useSavedUrls";
 
@@ -24,6 +25,7 @@ export default function ShortsExtension() {
           ))}
         </div>
       </div>
+      <MotionChatButton />
     </>
   );
 }
