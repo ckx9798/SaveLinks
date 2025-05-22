@@ -3,6 +3,8 @@ import axios from "axios";
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
 export const askToGemini = async (userMessage: string): Promise<string> => {
+  console.log("🌍 API KEY:", apiKey);
+
   try {
     const response = await axios.post(
       `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
