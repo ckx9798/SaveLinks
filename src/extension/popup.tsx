@@ -16,8 +16,8 @@ export const Popup = () => {
   }, []);
 
   // ⬆️ 저장
-  const saveUrlToSyncStorage = () => {
-    if (!currentUrl) return;
+  const saveUrlToSyncStorage = (url: string) => {
+    if (!url) return;
 
     const newItem = {
       id: crypto.randomUUID(),
@@ -43,8 +43,9 @@ export const Popup = () => {
     <>
       <div className="flex w-80 gap-2 rounded-2xl border border-gray-200 bg-white p-2 font-sans shadow-lg">
         <button
+          disabled={!currentUrl}
           className="w-full rounded-xl bg-primary px-2 py-2 font-medium text-white transition-all duration-200 hover:bg-indigo-600"
-          onClick={saveUrlToSyncStorage}
+          onClick={() => saveUrlToSyncStorage(currentUrl)}
         >
           ☁️ 저장하기
         </button>
