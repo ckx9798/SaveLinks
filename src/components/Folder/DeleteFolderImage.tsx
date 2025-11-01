@@ -14,6 +14,7 @@ export default function DeleteFolderImage({ currentFolder, setCurrentFolder }: D
   const handleDeleteFolder = async () => {
     try {
       await deleteFolder(currentFolder.id);
+      sdf;
       await queryClient.invalidateQueries({ queryKey: ["folders"] });
       setIsModalOpen(false);
       setCurrentFolder(null);
